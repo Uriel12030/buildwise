@@ -15,6 +15,20 @@ const statusColors: Record<string, string> = {
   freelancer: 'bg-purple-50 text-purple-700 border-purple-200',
 }
 
+const dotColors: Record<string, string> = {
+  active: 'bg-emerald-500',
+  planning: 'bg-amber-500',
+  draft: 'bg-gray-400',
+  on_hold: 'bg-orange-500',
+  completed: 'bg-blue-500',
+  inactive: 'bg-gray-400',
+  submitted: 'bg-blue-500',
+  approved: 'bg-emerald-500',
+  field: 'bg-amber-500',
+  office: 'bg-blue-500',
+  freelancer: 'bg-purple-500',
+}
+
 interface StatusBadgeProps {
   status: string
   className?: string
@@ -41,8 +55,9 @@ export function StatusBadge({ status, className }: StatusBadgeProps) {
   return (
     <Badge
       variant="outline"
-      className={cn('capitalize font-medium', colors, className)}
+      className={cn('capitalize font-medium gap-1.5', colors, className)}
     >
+      <span className={cn('h-1.5 w-1.5 rounded-full', dotColors[status] || 'bg-gray-400')} />
       {label}
     </Badge>
   )

@@ -17,21 +17,21 @@ export default async function AppLayout({
 
   return (
     <AuthProvider initialUser={user}>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-background">
         {/* Desktop sidebar */}
         <div className="hidden lg:block">
           <Sidebar />
         </div>
 
         {/* Mobile header */}
-        <div className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-white px-4 lg:hidden">
+        <div className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b backdrop-blur-lg bg-background/80 px-4 lg:hidden">
           <MobileSidebar />
-          <span className="text-lg font-bold text-gray-900">BuildWise</span>
+          <span className="text-lg font-bold text-foreground">BuildWise</span>
         </div>
 
         {/* Main content */}
-        <main className="lg:pr-64 min-h-screen">
-          <div className="p-4 sm:p-6 lg:p-8">{children}</div>
+        <main className="lg:pe-64 min-h-screen">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">{children}</div>
         </main>
       </div>
     </AuthProvider>

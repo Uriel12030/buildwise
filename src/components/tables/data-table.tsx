@@ -59,22 +59,22 @@ export function DataTable<TData, TValue>({
     <div className="space-y-4">
       {searchKey !== undefined && (
         <div className="relative max-w-sm">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder={searchPlaceholder}
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="pl-10"
+            className="ps-9"
           />
         </div>
       )}
-      <div className="rounded-lg border bg-white">
+      <div className="rounded-xl border bg-card shadow-card overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-xs font-semibold text-gray-500 uppercase">
+                  <TableHead key={header.id} className="text-xs font-semibold text-muted-foreground uppercase">
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -96,7 +96,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center text-gray-500">
+                <TableCell colSpan={columns.length} className="h-24 text-center text-muted-foreground">
                   לא נמצאו תוצאות.
                 </TableCell>
               </TableRow>
@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
       {/* Pagination */}
       {table.getPageCount() > 1 && (
         <div className="flex items-center justify-between">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             מציג {table.getState().pagination.pageIndex * pageSize + 1} עד{' '}
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * pageSize,

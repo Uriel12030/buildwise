@@ -17,7 +17,7 @@ const STATUS_COLORS: Record<string, string> = {
   planning: '#f59e0b',
   active: '#10b981',
   on_hold: '#f97316',
-  completed: '#3b82f6',
+  completed: '#6366f1',
 }
 
 interface DashboardChartsProps {
@@ -38,7 +38,7 @@ export function DashboardCharts({ logsByWeek, projectsByStatus }: DashboardChart
               <XAxis dataKey="date" fontSize={12} tickLine={false} axisLine={false} />
               <YAxis fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
               <Tooltip />
-              <Bar dataKey="logs" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="logs" fill="#6366f1" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>
@@ -83,7 +83,7 @@ export function DashboardCharts({ logsByWeek, projectsByStatus }: DashboardChart
                     className="h-2.5 w-2.5 rounded-full"
                     style={{ backgroundColor: STATUS_COLORS[p.status] }}
                   />
-                  <span className="capitalize text-gray-600">{p.status.replace('_', ' ')}</span>
+                  <span className="capitalize text-muted-foreground">{p.status.replace('_', ' ')}</span>
                 </div>
               ))}
           </div>

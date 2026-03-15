@@ -49,8 +49,8 @@ export function MobileSidebar() {
       </SheetTrigger>
       <SheetContent side="right" className="w-72 p-0">
         <div className="flex h-16 items-center gap-2 border-b px-4">
-          <HardHat className="h-8 w-8 text-blue-600" />
-          <span className="text-xl font-bold text-gray-900">BuildWise</span>
+          <HardHat className="h-8 w-8 text-brand" />
+          <span className="text-lg font-semibold text-foreground">BuildWise</span>
         </div>
         <nav className="flex-1 space-y-1 px-2 py-4">
           {navigation.map((item) => {
@@ -62,14 +62,17 @@ export function MobileSidebar() {
                 href={item.href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                  'relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
                   isActive
-                    ? 'bg-blue-50 text-blue-700'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    ? 'bg-brand-light text-brand font-semibold'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
                 )}
               >
                 <item.icon className="h-5 w-5" />
                 {item.name}
+                {isActive && (
+                  <div className="absolute inset-y-1 end-0 w-[3px] rounded-full bg-brand" />
+                )}
               </Link>
             )
           })}
@@ -77,18 +80,18 @@ export function MobileSidebar() {
         <div className="border-t p-3">
           {user && (
             <div className="mb-2 px-2">
-              <p className="text-sm font-medium text-gray-900">{user.full_name}</p>
-              <p className="text-xs text-gray-500">
+              <p className="text-sm font-medium text-foreground">{user.full_name}</p>
+              <p className="text-xs text-muted-foreground">
                 {roleLabels[user.role] || user.role}
               </p>
             </div>
           )}
           <Button
             variant="ghost"
-            className="w-full justify-start text-gray-600"
+            className="w-full justify-start text-muted-foreground"
             onClick={signOut}
           >
-            <LogOut className="ml-2 h-4 w-4" />
+            <LogOut className="ms-2 h-4 w-4" />
             התנתקות
           </Button>
         </div>

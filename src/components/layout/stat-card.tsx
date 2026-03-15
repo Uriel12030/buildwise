@@ -19,18 +19,18 @@ export function StatCard({
   className,
 }: StatCardProps) {
   return (
-    <Card className={cn('', className)}>
+    <Card className={cn('group hover:shadow-card-hover transition-shadow duration-200', className)}>
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-500">{title}</p>
-            <p className="mt-1 text-3xl font-bold text-gray-900">{value}</p>
+            <p className="text-[13px] font-medium text-muted-foreground">{title}</p>
+            <p className="mt-1 text-2xl font-semibold tracking-tight text-foreground">{value}</p>
             {description && (
-              <p className="mt-1 text-xs text-gray-500">{description}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{description}</p>
             )}
           </div>
-          <div className="rounded-lg bg-blue-50 p-3">
-            <Icon className="h-6 w-6 text-blue-600" />
+          <div className="rounded-xl bg-brand-light p-3">
+            <Icon className="h-6 w-6 text-brand" />
           </div>
         </div>
       </CardContent>

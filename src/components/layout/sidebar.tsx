@@ -42,20 +42,20 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 right-0 z-50 flex flex-col border-l bg-white transition-all duration-300',
+        'fixed inset-y-0 end-0 z-50 flex flex-col border-s border-border bg-card transition-all duration-300',
         collapsed ? 'w-16' : 'w-64'
       )}
     >
       {/* Logo */}
       <div className="flex h-16 items-center gap-2 border-b px-4">
-        <HardHat className="h-8 w-8 shrink-0 text-blue-600" />
+        <HardHat className="h-8 w-8 shrink-0 text-brand" />
         {!collapsed && (
-          <span className="text-xl font-bold text-gray-900">BuildWise</span>
+          <span className="text-lg font-semibold text-foreground">BuildWise</span>
         )}
         <Button
           variant="ghost"
           size="icon"
-          className={cn('mr-auto h-8 w-8', collapsed && 'mx-auto')}
+          className={cn('me-auto h-8 w-8', collapsed && 'mx-auto')}
           onClick={() => setCollapsed(!collapsed)}
         >
           <ChevronRight
@@ -77,16 +77,19 @@ export function Sidebar() {
               key={item.name}
               href={item.href}
               className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                'relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
                 isActive
-                  ? 'bg-blue-50 text-blue-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
+                  ? 'bg-brand-light text-brand font-semibold'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                 collapsed && 'justify-center px-2'
               )}
               title={collapsed ? item.name : undefined}
             >
               <item.icon className="h-5 w-5 shrink-0" />
               {!collapsed && item.name}
+              {isActive && (
+                <div className="absolute inset-y-1 end-0 w-[3px] rounded-full bg-brand" />
+              )}
             </Link>
           )
         })}
@@ -96,10 +99,10 @@ export function Sidebar() {
       <div className="border-t p-3">
         {user && !collapsed && (
           <div className="mb-2 px-2">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-foreground truncate">
               {user.full_name}
             </p>
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               {roleLabels[user.role] || user.role}
             </p>
           </div>
@@ -107,11 +110,11 @@ export function Sidebar() {
         <Button
           variant="ghost"
           size={collapsed ? 'icon' : 'default'}
-          className={cn('w-full text-gray-600', !collapsed && 'justify-start')}
+          className={cn('w-full text-muted-foreground', !collapsed && 'justify-start')}
           onClick={signOut}
         >
           <LogOut className="h-4 w-4 shrink-0" />
-          {!collapsed && <span className="mr-2">התנתקות</span>}
+          {!collapsed && <span className="me-2">התנתקות</span>}
         </Button>
       </div>
     </aside>
