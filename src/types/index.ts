@@ -88,22 +88,59 @@ export interface DailyLog {
   notes: string | null
   issues: string | null
   status: DailyLogStatus
+  start_time: string | null
+  end_time: string | null
+  main_contractor: string | null
+  site_address: string | null
   created_at: string
   updated_at: string
   project?: Project
   site_manager?: User
   workers?: DailyLogWorker[]
   files?: DailyLogFile[]
+  activities?: DailyLogActivity[]
+  equipment?: DailyLogEquipment[]
+  materials?: DailyLogMaterial[]
 }
 
 export interface DailyLogWorker {
   id: string
   daily_log_id: string
-  employee_id: string
+  employee_id: string | null
+  worker_type: 'company' | 'foreign' | 'subcontractor'
+  worker_name: string | null
+  role_title: string | null
   hours_worked: number
   overtime_hours: number
   notes: string | null
   employee?: Employee
+}
+
+export interface DailyLogActivity {
+  id: string
+  daily_log_id: string
+  seq_number: number
+  description: string
+  is_irregular: boolean
+  notes: string | null
+}
+
+export interface DailyLogEquipment {
+  id: string
+  daily_log_id: string
+  equipment_type: 'company' | 'subcontractor'
+  identification_number: string | null
+  equipment_name: string
+  notes: string | null
+}
+
+export interface DailyLogMaterial {
+  id: string
+  daily_log_id: string
+  material_name: string
+  quantity: string | null
+  supplier: string | null
+  notes: string | null
 }
 
 export interface DailyLogFile {

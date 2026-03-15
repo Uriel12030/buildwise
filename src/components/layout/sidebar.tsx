@@ -13,6 +13,7 @@ import {
   LogOut,
   HardHat,
   ChevronRight,
+  FileText,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
@@ -23,6 +24,7 @@ const navigation = [
   { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
   { name: 'עובדים', href: '/employees', icon: Users },
   { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
+  { name: 'היומנים שלי', href: '/my-logs', icon: FileText },
 ]
 
 const roleLabels: Record<string, string> = {

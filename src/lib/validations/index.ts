@@ -45,9 +45,41 @@ export const projectSchema = z.object({
 export type ProjectFormData = z.infer<typeof projectSchema>
 
 export const dailyLogWorkerSchema = z.object({
-  employee_id: z.string().uuid('Select an employee'),
+  worker_type: z.enum(['company', 'foreign', 'subcontractor']),
+  employee_id: z.string().optional().nullable(),
+  worker_name: z.string().optional().nullable(),
+  role_title: z.string().optional().nullable(),
   hours_worked: z.number().min(0).max(24, 'Max 24 hours'),
   overtime_hours: z.number().min(0).max(24, 'Max 24 hours'),
+  notes: z.string().optional().nullable(),
+}).refine(
+  (data) => {
+    if (data.worker_type === 'subcontractor') {
+      return !!data.worker_name
+    }
+    return !!data.employee_id
+  },
+  { message: 'Employee or worker name is required', path: ['employee_id'] }
+)
+
+export const dailyLogActivitySchema = z.object({
+  seq_number: z.number().min(1),
+  description: z.string(),
+  is_irregular: z.boolean(),
+  notes: z.string().optional().nullable(),
+})
+
+export const dailyLogEquipmentSchema = z.object({
+  equipment_type: z.enum(['company', 'subcontractor']),
+  identification_number: z.string().optional().nullable(),
+  equipment_name: z.string().min(1, 'Equipment name is required'),
+  notes: z.string().optional().nullable(),
+})
+
+export const dailyLogMaterialSchema = z.object({
+  material_name: z.string().min(1, 'Material name is required'),
+  quantity: z.string().optional().nullable(),
+  supplier: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
 })
 
@@ -55,12 +87,22 @@ export const dailyLogSchema = z.object({
   project_id: z.string().uuid('Select a project'),
   log_date: z.string().min(1, 'Date is required'),
   weather: z.string().optional().nullable(),
-  work_summary: z.string().min(1, 'Work summary is required'),
+  work_summary: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
   issues: z.string().optional().nullable(),
   status: z.enum(['draft', 'submitted', 'approved']),
+  start_time: z.string().optional().nullable(),
+  end_time: z.string().optional().nullable(),
+  main_contractor: z.string().optional().nullable(),
+  site_address: z.string().optional().nullable(),
   workers: z.array(dailyLogWorkerSchema).optional(),
+  activities: z.array(dailyLogActivitySchema).optional(),
+  equipment: z.array(dailyLogEquipmentSchema).optional(),
+  materials: z.array(dailyLogMaterialSchema).optional(),
 })
 
 export type DailyLogFormData = z.infer<typeof dailyLogSchema>
 export type DailyLogWorkerFormData = z.infer<typeof dailyLogWorkerSchema>
+export type DailyLogActivityFormData = z.infer<typeof dailyLogActivitySchema>
+export type DailyLogEquipmentFormData = z.infer<typeof dailyLogEquipmentSchema>
+export type DailyLogMaterialFormData = z.infer<typeof dailyLogMaterialSchema>

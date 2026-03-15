@@ -32,10 +32,13 @@ export async function getLog(id: string) {
     .from('daily_logs')
     .select(`
       *,
-      project:projects(id, name, project_code, client:clients(id, name)),
+      project:projects(id, name, project_code, location, client:clients(id, name), project_manager:users!projects_project_manager_user_id_fkey(id, full_name)),
       site_manager:users!daily_logs_site_manager_user_id_fkey(id, full_name),
       workers:daily_log_workers(*, employee:employees(id, full_name, role_title, hourly_rate)),
-      files:daily_log_files(*)
+      files:daily_log_files(*),
+      activities:daily_log_activities(*),
+      equipment:daily_log_equipment(*),
+      materials:daily_log_materials(*)
     `)
     .eq('id', id)
     .single()
@@ -44,9 +47,25 @@ export async function getLog(id: string) {
   return data
 }
 
+export async function getEmployeesByType() {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('employees')
+    .select('id, full_name, role_title, employee_type')
+    .eq('status', 'active')
+    .order('full_name')
+
+  if (error) throw error
+
+  const company = data.filter((e) => e.role_title !== 'עובד זר')
+  const foreign = data.filter((e) => e.role_title === 'עובד זר')
+
+  return { company, foreign }
+}
+
 export async function createLogAction(formData: DailyLogFormData, files?: FormData) {
   const user = await requireUser()
-  const { workers, ...logData } = dailyLogSchema.parse(formData)
+  const { workers, activities, equipment, materials, ...logData } = dailyLogSchema.parse(formData)
 
   const supabase = await createClient()
 
@@ -69,10 +88,67 @@ export async function createLogAction(formData: DailyLogFormData, files?: FormDa
       .insert(
         workers.map((w) => ({
           daily_log_id: log.id,
-          ...w,
+          worker_type: w.worker_type,
+          employee_id: w.employee_id || null,
+          worker_name: w.worker_name || null,
+          role_title: w.role_title || null,
+          hours_worked: w.hours_worked,
+          overtime_hours: w.overtime_hours,
+          notes: w.notes || null,
         }))
       )
     if (workersError) throw workersError
+  }
+
+  // Add activities
+  if (activities && activities.length > 0) {
+    const nonEmpty = activities.filter((a) => a.description?.trim())
+    if (nonEmpty.length > 0) {
+      const { error: activitiesError } = await supabase
+        .from('daily_log_activities')
+        .insert(
+          nonEmpty.map((a) => ({
+            daily_log_id: log.id,
+            seq_number: a.seq_number,
+            description: a.description,
+            is_irregular: a.is_irregular,
+            notes: a.notes || null,
+          }))
+        )
+      if (activitiesError) throw activitiesError
+    }
+  }
+
+  // Add equipment
+  if (equipment && equipment.length > 0) {
+    const { error: equipmentError } = await supabase
+      .from('daily_log_equipment')
+      .insert(
+        equipment.map((e) => ({
+          daily_log_id: log.id,
+          equipment_type: e.equipment_type,
+          identification_number: e.identification_number || null,
+          equipment_name: e.equipment_name,
+          notes: e.notes || null,
+        }))
+      )
+    if (equipmentError) throw equipmentError
+  }
+
+  // Add materials
+  if (materials && materials.length > 0) {
+    const { error: materialsError } = await supabase
+      .from('daily_log_materials')
+      .insert(
+        materials.map((m) => ({
+          daily_log_id: log.id,
+          material_name: m.material_name,
+          quantity: m.quantity || null,
+          supplier: m.supplier || null,
+          notes: m.notes || null,
+        }))
+      )
+    if (materialsError) throw materialsError
   }
 
   // Upload files
@@ -103,7 +179,7 @@ export async function createLogAction(formData: DailyLogFormData, files?: FormDa
 
 export async function updateLogAction(id: string, formData: DailyLogFormData) {
   const user = await requireUser()
-  const { workers, ...logData } = dailyLogSchema.parse(formData)
+  const { workers, activities, equipment, materials, ...logData } = dailyLogSchema.parse(formData)
 
   const supabase = await createClient()
 
@@ -134,7 +210,62 @@ export async function updateLogAction(id: string, formData: DailyLogFormData) {
       await supabase.from('daily_log_workers').insert(
         workers.map((w) => ({
           daily_log_id: id,
-          ...w,
+          worker_type: w.worker_type,
+          employee_id: w.employee_id || null,
+          worker_name: w.worker_name || null,
+          role_title: w.role_title || null,
+          hours_worked: w.hours_worked,
+          overtime_hours: w.overtime_hours,
+          notes: w.notes || null,
+        }))
+      )
+    }
+  }
+
+  // Replace activities
+  if (activities) {
+    await supabase.from('daily_log_activities').delete().eq('daily_log_id', id)
+    const nonEmpty = activities.filter((a) => a.description?.trim())
+    if (nonEmpty.length > 0) {
+      await supabase.from('daily_log_activities').insert(
+        nonEmpty.map((a) => ({
+          daily_log_id: id,
+          seq_number: a.seq_number,
+          description: a.description,
+          is_irregular: a.is_irregular,
+          notes: a.notes || null,
+        }))
+      )
+    }
+  }
+
+  // Replace equipment
+  if (equipment) {
+    await supabase.from('daily_log_equipment').delete().eq('daily_log_id', id)
+    if (equipment.length > 0) {
+      await supabase.from('daily_log_equipment').insert(
+        equipment.map((e) => ({
+          daily_log_id: id,
+          equipment_type: e.equipment_type,
+          identification_number: e.identification_number || null,
+          equipment_name: e.equipment_name,
+          notes: e.notes || null,
+        }))
+      )
+    }
+  }
+
+  // Replace materials
+  if (materials) {
+    await supabase.from('daily_log_materials').delete().eq('daily_log_id', id)
+    if (materials.length > 0) {
+      await supabase.from('daily_log_materials').insert(
+        materials.map((m) => ({
+          daily_log_id: id,
+          material_name: m.material_name,
+          quantity: m.quantity || null,
+          supplier: m.supplier || null,
+          notes: m.notes || null,
         }))
       )
     }
@@ -165,6 +296,9 @@ export async function deleteLogAction(id: string) {
   // Delete cascading
   await supabase.from('daily_log_files').delete().eq('daily_log_id', id)
   await supabase.from('daily_log_workers').delete().eq('daily_log_id', id)
+  await supabase.from('daily_log_activities').delete().eq('daily_log_id', id)
+  await supabase.from('daily_log_equipment').delete().eq('daily_log_id', id)
+  await supabase.from('daily_log_materials').delete().eq('daily_log_id', id)
   const { error } = await supabase.from('daily_logs').delete().eq('id', id)
 
   if (error) throw error

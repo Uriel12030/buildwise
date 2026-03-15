@@ -3,7 +3,7 @@ import { PageHeader } from '@/components/layout/page-header'
 import { StatusBadge } from '@/components/layout/status-badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Pencil, Calendar, CloudSun, ImageIcon, FileIcon } from 'lucide-react'
+import { Pencil, Calendar, CloudSun, ImageIcon, FileIcon, Clock } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import dayjs from '@/lib/dayjs'
@@ -17,6 +17,12 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
   } catch {
     notFound()
   }
+
+  const companyWorkers = (log.workers || []).filter((w: any) => w.worker_type === 'company' || (!w.worker_type && w.employee_id))
+  const foreignWorkers = (log.workers || []).filter((w: any) => w.worker_type === 'foreign')
+  const subcontractorWorkers = (log.workers || []).filter((w: any) => w.worker_type === 'subcontractor')
+  const companyEquipment = (log.equipment || []).filter((e: any) => e.equipment_type === 'company')
+  const subEquipment = (log.equipment || []).filter((e: any) => e.equipment_type === 'subcontractor')
 
   return (
     <div className="space-y-6">
@@ -45,12 +51,21 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             {log.weather}
           </div>
         )}
+        {(log.start_time || log.end_time) && (
+          <div className="flex items-center gap-2 text-sm text-gray-500">
+            <Clock className="h-4 w-4" />
+            {log.start_time || '—'} — {log.end_time || '—'}
+          </div>
+        )}
       </div>
 
-      {/* Project info */}
+      {/* General Info */}
       <Card>
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between">
+        <CardHeader>
+          <CardTitle className="text-base">פרטים כלליים</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
               <p className="text-xs text-gray-500">פרויקט</p>
               <Link
@@ -59,30 +74,223 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
               >
                 {log.project?.name} ({log.project?.project_code})
               </Link>
-              {log.project?.client && (
-                <p className="text-xs text-gray-500">
-                  לקוח:{' '}
-                  <Link
-                    href={`/clients/${log.project.client.id}`}
-                    className="text-blue-600 hover:underline"
-                  >
-                    {log.project.client.name}
-                  </Link>
-                </p>
-              )}
             </div>
+            {log.project?.client && (
+              <div>
+                <p className="text-xs text-gray-500">מזמין עבודה</p>
+                <Link
+                  href={`/clients/${log.project.client.id}`}
+                  className="text-sm font-medium text-blue-600 hover:underline"
+                >
+                  {log.project.client.name}
+                </Link>
+              </div>
+            )}
             {log.site_manager && (
-              <div className="text-right">
+              <div>
                 <p className="text-xs text-gray-500">מנהל עבודה</p>
                 <p className="text-sm font-medium">{log.site_manager.full_name}</p>
+              </div>
+            )}
+            {log.site_address && (
+              <div>
+                <p className="text-xs text-gray-500">כתובת האתר</p>
+                <p className="text-sm font-medium">{log.site_address}</p>
+              </div>
+            )}
+            {log.main_contractor && (
+              <div>
+                <p className="text-xs text-gray-500">קבלן ראשי</p>
+                <p className="text-sm font-medium">{log.main_contractor}</p>
+              </div>
+            )}
+            {log.project?.project_manager && (
+              <div>
+                <p className="text-xs text-gray-500">מנהל פרויקט</p>
+                <p className="text-sm font-medium">{log.project.project_manager.full_name}</p>
               </div>
             )}
           </div>
         </CardContent>
       </Card>
 
-      {/* Work summary, issues, notes */}
+      {/* Company Workers */}
+      {companyWorkers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">כח אדם חברה ({companyWorkers.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <WorkerTable workers={companyWorkers} showEmployee />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Foreign Workers */}
+      {foreignWorkers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">פועלים ({foreignWorkers.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <WorkerTable workers={foreignWorkers} showEmployee />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Subcontractor Workers */}
+      {subcontractorWorkers.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">כח אדם קבלני משנה ({subcontractorWorkers.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">שם עובד</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">תפקיד</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">שעות</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">נוספות</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {subcontractorWorkers.map((w: any) => (
+                    <tr key={w.id} className="border-b last:border-0">
+                      <td className="px-4 py-2">{w.worker_name || '—'}</td>
+                      <td className="px-4 py-2 text-gray-500">{w.role_title || '—'}</td>
+                      <td className="px-4 py-2 text-right">{w.hours_worked}</td>
+                      <td className="px-4 py-2 text-right">{w.overtime_hours}</td>
+                      <td className="px-4 py-2 text-gray-500">{w.notes || '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Company Equipment */}
+      {companyEquipment.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">כלים וציוד חברה ({companyEquipment.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <EquipmentTable items={companyEquipment} />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Subcontractor Equipment */}
+      {subEquipment.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">כלים קבלני משנה ({subEquipment.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <EquipmentTable items={subEquipment} />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Activities */}
+      {log.activities && log.activities.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">תיאור פעולות שבוצעו באתר ({log.activities.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="px-4 py-2 text-right font-medium text-gray-500 w-16">מס&apos;</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">תיאור הפעולה</th>
+                    <th className="px-4 py-2 text-center font-medium text-gray-500 w-24">עבודה חריגה</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {log.activities
+                    .sort((a: any, b: any) => a.seq_number - b.seq_number)
+                    .map((a: any) => (
+                      <tr key={a.id} className="border-b last:border-0">
+                        <td className="px-4 py-2 text-center text-gray-500">{a.seq_number}</td>
+                        <td className="px-4 py-2 whitespace-pre-wrap">{a.description}</td>
+                        <td className="px-4 py-2 text-center">{a.is_irregular ? 'V' : ''}</td>
+                        <td className="px-4 py-2 text-gray-500">{a.notes || '—'}</td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Materials */}
+      {log.materials && log.materials.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">חומרים ({log.materials.length})</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-lg border">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b bg-gray-50">
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">חומר</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">כמות</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">ספק</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {log.materials.map((m: any) => (
+                    <tr key={m.id} className="border-b last:border-0">
+                      <td className="px-4 py-2">{m.material_name}</td>
+                      <td className="px-4 py-2">{m.quantity || '—'}</td>
+                      <td className="px-4 py-2">{m.supplier || '—'}</td>
+                      <td className="px-4 py-2 text-gray-500">{m.notes || '—'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Issues and Notes */}
       <div className="grid gap-6 lg:grid-cols-2">
+        {log.issues && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base text-orange-600">בעיות</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm whitespace-pre-wrap">{log.issues}</p>
+            </CardContent>
+          </Card>
+        )}
+        {log.notes && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">הערות נוספות</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm whitespace-pre-wrap">{log.notes}</p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* Work Summary - keep for backward compat */}
+      {log.work_summary && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base">סיכום עבודה</CardTitle>
@@ -91,87 +299,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             <p className="text-sm whitespace-pre-wrap">{log.work_summary}</p>
           </CardContent>
         </Card>
-
-        <div className="space-y-6">
-          {log.issues && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base text-orange-600">בעיות</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm whitespace-pre-wrap">{log.issues}</p>
-              </CardContent>
-            </Card>
-          )}
-          {log.notes && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-base">הערות</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm whitespace-pre-wrap">{log.notes}</p>
-              </CardContent>
-            </Card>
-          )}
-        </div>
-      </div>
-
-      {/* Workers */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">
-            עובדים ({log.workers?.length || 0})
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {!log.workers || log.workers.length === 0 ? (
-            <p className="text-sm text-gray-500">לא נרשמו עובדים</p>
-          ) : (
-            <div className="rounded-lg border">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="px-4 py-2 text-left font-medium text-gray-500">עובד</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-500">תפקיד</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">שעות</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">נוספות</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">תעריף</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-500">הערות</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {log.workers.map((w: any) => (
-                    <tr key={w.id} className="border-b last:border-0">
-                      <td className="px-4 py-2">
-                        <Link href={`/employees/${w.employee?.id}`} className="text-blue-600 hover:underline">
-                          {w.employee?.full_name}
-                        </Link>
-                      </td>
-                      <td className="px-4 py-2 text-gray-500">{w.employee?.role_title}</td>
-                      <td className="px-4 py-2 text-right">{w.hours_worked}</td>
-                      <td className="px-4 py-2 text-right">{w.overtime_hours}</td>
-                      <td className="px-4 py-2 text-right">₪{w.employee?.hourly_rate}</td>
-                      <td className="px-4 py-2 text-gray-500">{w.notes || '—'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr className="bg-gray-50 font-medium">
-                    <td className="px-4 py-2" colSpan={2}>סה"כ</td>
-                    <td className="px-4 py-2 text-right">
-                      {log.workers.reduce((sum: number, w: any) => sum + (w.hours_worked || 0), 0)}
-                    </td>
-                    <td className="px-4 py-2 text-right">
-                      {log.workers.reduce((sum: number, w: any) => sum + (w.overtime_hours || 0), 0)}
-                    </td>
-                    <td className="px-4 py-2" colSpan={2}></td>
-                  </tr>
-                </tfoot>
-              </table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      )}
 
       {/* Files */}
       {log.files && log.files.length > 0 && (
@@ -206,6 +334,82 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
         <span>נוצר: {dayjs(log.created_at).format('MMM D, YYYY HH:mm')}</span>
         <span>עודכן: {dayjs(log.updated_at).format('MMM D, YYYY HH:mm')}</span>
       </div>
+    </div>
+  )
+}
+
+function WorkerTable({ workers, showEmployee }: { workers: any[]; showEmployee?: boolean }) {
+  return (
+    <div className="rounded-lg border">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b bg-gray-50">
+            <th className="px-4 py-2 text-right font-medium text-gray-500">עובד</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">תפקיד</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">שעות</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">נוספות</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">תעריף</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+          </tr>
+        </thead>
+        <tbody>
+          {workers.map((w: any) => (
+            <tr key={w.id} className="border-b last:border-0">
+              <td className="px-4 py-2">
+                {w.employee ? (
+                  <Link href={`/employees/${w.employee.id}`} className="text-blue-600 hover:underline">
+                    {w.employee.full_name}
+                  </Link>
+                ) : (
+                  w.worker_name || '—'
+                )}
+              </td>
+              <td className="px-4 py-2 text-gray-500">{w.employee?.role_title || w.role_title || '—'}</td>
+              <td className="px-4 py-2 text-right">{w.hours_worked}</td>
+              <td className="px-4 py-2 text-right">{w.overtime_hours}</td>
+              <td className="px-4 py-2 text-right">{w.employee?.hourly_rate ? `${w.employee.hourly_rate} \u20AA` : '—'}</td>
+              <td className="px-4 py-2 text-gray-500">{w.notes || '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+        <tfoot>
+          <tr className="bg-gray-50 font-medium">
+            <td className="px-4 py-2" colSpan={2}>סה&quot;כ</td>
+            <td className="px-4 py-2 text-right">
+              {workers.reduce((sum: number, w: any) => sum + (w.hours_worked || 0), 0)}
+            </td>
+            <td className="px-4 py-2 text-right">
+              {workers.reduce((sum: number, w: any) => sum + (w.overtime_hours || 0), 0)}
+            </td>
+            <td className="px-4 py-2" colSpan={2}></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  )
+}
+
+function EquipmentTable({ items }: { items: any[] }) {
+  return (
+    <div className="rounded-lg border">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b bg-gray-50">
+            <th className="px-4 py-2 text-right font-medium text-gray-500">מס&apos; זיהוי</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">סוג</th>
+            <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((e: any) => (
+            <tr key={e.id} className="border-b last:border-0">
+              <td className="px-4 py-2">{e.identification_number || '—'}</td>
+              <td className="px-4 py-2">{e.equipment_name}</td>
+              <td className="px-4 py-2 text-gray-500">{e.notes || '—'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   )
 }

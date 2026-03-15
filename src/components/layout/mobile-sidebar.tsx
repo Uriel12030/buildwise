@@ -15,6 +15,7 @@ import {
   ClipboardList,
   LogOut,
   HardHat,
+  FileText,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -24,6 +25,7 @@ const navigation = [
   { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
   { name: 'עובדים', href: '/employees', icon: Users },
   { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
+  { name: 'היומנים שלי', href: '/my-logs', icon: FileText },
 ]
 
 const roleLabels: Record<string, string> = {
