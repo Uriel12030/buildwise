@@ -29,7 +29,6 @@ export interface GoodMorningData {
     id: string
     name: string
     category: string
-    hourlyCost: number
     dailyCost: number
   }[]
   totalWorkersCost: number
@@ -60,13 +59,13 @@ export async function getGoodMorningData(dateStr?: string): Promise<GoodMorningD
 
   if (logsError) throw logsError
 
-  // Get all active equipment with hourly costs
+  // Get all active equipment with daily costs
   const { data: allEquipment, error: eqError } = await supabase
     .from('equipment')
-    .select('id, name, category, hourly_cost, status')
+    .select('id, name, category, daily_cost, status')
     .eq('status', 'active')
-    .not('hourly_cost', 'is', null)
-    .gt('hourly_cost', 0)
+    .not('daily_cost', 'is', null)
+    .gt('daily_cost', 0)
     .order('name')
 
   if (eqError) throw eqError
@@ -100,13 +99,12 @@ export async function getGoodMorningData(dateStr?: string): Promise<GoodMorningD
     }
   })
 
-  // Equipment: assume 8-hour workday for daily cost
+  // Equipment daily cost
   const equipment = (allEquipment || []).map((e: any) => ({
     id: e.id,
     name: e.name,
     category: e.category,
-    hourlyCost: e.hourly_cost,
-    dailyCost: e.hourly_cost * 8,
+    dailyCost: e.daily_cost,
   }))
 
   const totalWorkersCost = projects.reduce((sum, p) => sum + p.totalWorkersCost, 0)

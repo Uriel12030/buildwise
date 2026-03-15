@@ -186,7 +186,7 @@ export default async function GoodMorningPage({
         <div className="space-y-4">
           <h2 className="text-lg font-semibold flex items-center gap-2">
             <Wrench className="h-5 w-5 text-muted-foreground" />
-            עלות ציוד פעיל (8 שעות עבודה)
+            עלות ציוד פעיל
           </h2>
           <Card>
             <CardContent className="p-0">
@@ -196,7 +196,6 @@ export default async function GoodMorningPage({
                     <tr className="bg-muted/30 border-b">
                       <th className="px-4 py-2.5 text-start text-[11px] font-semibold text-muted-foreground uppercase">כלי</th>
                       <th className="px-4 py-2.5 text-start text-[11px] font-semibold text-muted-foreground uppercase">קטגוריה</th>
-                      <th className="px-4 py-2.5 text-end text-[11px] font-semibold text-muted-foreground uppercase">עלות/שעה</th>
                       <th className="px-4 py-2.5 text-end text-[11px] font-semibold text-muted-foreground uppercase">עלות יומית</th>
                     </tr>
                   </thead>
@@ -211,7 +210,6 @@ export default async function GoodMorningPage({
                         <td className="px-4 py-2.5">
                           <StatusBadge status={e.category} />
                         </td>
-                        <td className="px-4 py-2.5 text-end">₪{e.hourlyCost}</td>
                         <td className="px-4 py-2.5 text-end font-medium">₪{e.dailyCost.toLocaleString('he-IL', { maximumFractionDigits: 0 })}</td>
                       </tr>
                     ))}
