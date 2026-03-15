@@ -24,7 +24,7 @@ export default async function MyLogsPage() {
         action={
           <Button asChild>
             <Link href="/logs/new">
-              <Plus className="ms-2 h-4 w-4" />
+              <Plus className="me-2 h-4 w-4" />
               יומן חדש
             </Link>
           </Button>
@@ -58,7 +58,7 @@ export default async function MyLogsPage() {
                     </div>
                     <Button asChild size="sm" variant="outline">
                       <Link href={`/logs/new?projectId=${project.id}`}>
-                        <Plus className="ms-1 h-3 w-3" />
+                        <Plus className="me-1 h-3 w-3" />
                         יומן
                       </Link>
                     </Button>

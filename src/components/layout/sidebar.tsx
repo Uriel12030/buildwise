@@ -42,15 +42,18 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 end-0 z-50 flex flex-col border-s border-border bg-card transition-all duration-300',
+        'fixed inset-y-0 end-0 z-50 flex flex-col border-s border-border bg-gradient-to-b from-card to-muted/20 transition-all duration-300',
         collapsed ? 'w-16' : 'w-64'
       )}
     >
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2 border-b px-4">
+      <div className="flex h-[72px] items-center gap-2 border-b border-border/60 px-4">
         <HardHat className="h-8 w-8 shrink-0 text-brand" />
         {!collapsed && (
-          <span className="text-lg font-semibold text-foreground">BuildWise</span>
+          <>
+            <div className="w-1 h-5 rounded-full bg-brand/60" />
+            <span className="text-lg font-semibold text-foreground">BuildWise</span>
+          </>
         )}
         <Button
           variant="ghost"
@@ -68,7 +71,8 @@ export function Sidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 space-y-1 px-2 py-4">
+      <nav className="flex-1 space-y-0.5 px-2 py-4">
+        {!collapsed && <p className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">ניווט</p>}
         {navigation.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + '/')
@@ -98,7 +102,7 @@ export function Sidebar() {
       {/* User */}
       <div className="border-t p-3">
         {user && !collapsed && (
-          <div className="mb-2 px-2">
+          <div className="mb-2 bg-muted/40 rounded-xl mx-0 p-2">
             <p className="text-sm font-medium text-foreground truncate">
               {user.full_name}
             </p>

@@ -4,7 +4,7 @@ import { StatusBadge } from '@/components/layout/status-badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { EmptyState } from '@/components/layout/empty-state'
-import { Pencil, FolderKanban, Phone, Mail, MapPin, Building2 } from 'lucide-react'
+import { Pencil, FolderKanban, Phone, Mail, MapPin, Building2, Users } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import dayjs from '@/lib/dayjs'
@@ -55,9 +55,12 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
               </div>
             )}
             {client.contact_name && (
-              <div>
-                <p className="text-xs text-muted-foreground">איש קשר</p>
-                <p className="text-sm">{client.contact_name}</p>
+              <div className="flex items-start gap-3">
+                <Users className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                <div>
+                  <p className="text-xs text-muted-foreground">איש קשר</p>
+                  <p className="text-sm">{client.contact_name}</p>
+                </div>
               </div>
             )}
             {client.phone && (
@@ -84,7 +87,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                 <p className="text-sm whitespace-pre-wrap">{client.notes}</p>
               </div>
             )}
-            <div className="pt-2 border-t text-xs text-muted-foreground">
+            <div className="pt-3 mt-3 border-t text-xs text-muted-foreground/60">
               נוצר {dayjs(client.created_at).format('D בMMM YYYY')}
             </div>
           </CardContent>

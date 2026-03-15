@@ -46,10 +46,10 @@ export function FileUploader({
     <div className={cn('space-y-3', className)}>
       <div
         className={cn(
-          'flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors cursor-pointer',
+          'flex flex-col items-center justify-center rounded-xl border-2 border-dashed p-6 transition-all cursor-pointer',
           dragActive
-            ? 'border-blue-400 bg-blue-50'
-            : 'border-gray-200 hover:border-gray-300 hover:bg-muted'
+            ? 'border-brand bg-brand-light scale-[1.01]'
+            : 'border-border hover:border-brand/40 hover:bg-muted'
         )}
         onDragOver={(e) => {
           e.preventDefault()

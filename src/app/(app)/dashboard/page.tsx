@@ -47,7 +47,7 @@ export default async function DashboardPage() {
                   <Link
                     key={log.id}
                     href={`/logs/${log.id}`}
-                    className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted transition-colors"
+                    className="flex items-center justify-between rounded-lg border border-s-2 border-s-brand/30 p-3 hover:bg-muted transition-colors"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium text-foreground truncate">
@@ -78,7 +78,7 @@ export default async function DashboardPage() {
                 {missingLogs.map((project) => (
                   <div
                     key={project.id}
-                    className="flex items-center justify-between rounded-lg border border-amber-100 bg-amber-50 p-3"
+                    className="flex items-center justify-between border border-amber-200 bg-amber-50/50 rounded-xl p-3"
                   >
                     <div>
                       <p className="text-sm font-medium text-foreground">{project.name}</p>

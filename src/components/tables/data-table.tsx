@@ -57,24 +57,26 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      {searchKey !== undefined && (
-        <div className="relative max-w-sm">
-          <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder={searchPlaceholder}
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className="ps-9"
-          />
-        </div>
-      )}
+      <div className="flex items-center justify-between gap-4">
+        {searchKey !== undefined && (
+          <div className="relative w-full max-w-sm">
+            <Search className="absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder={searchPlaceholder}
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="ps-9 h-9 bg-muted/50"
+            />
+          </div>
+        )}
+      </div>
       <div className="rounded-xl border bg-card shadow-card overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="bg-muted/40">
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} className="text-xs font-semibold text-muted-foreground uppercase">
+                  <TableHead key={header.id} className="text-xs font-bold text-muted-foreground uppercase">
                     {header.isPlaceholder
                       ? null
                       : flexRender(header.column.columnDef.header, header.getContext())}
@@ -85,8 +87,8 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+              table.getRowModel().rows.map((row, index) => (
+                <TableRow key={row.id} className={index % 2 === 1 ? 'bg-muted/20 h-11' : 'h-11'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-sm">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -107,7 +109,7 @@ export function DataTable<TData, TValue>({
 
       {/* Pagination */}
       {table.getPageCount() > 1 && (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between border-t pt-4">
           <p className="text-sm text-muted-foreground">
             מציג {table.getState().pagination.pageIndex * pageSize + 1} עד{' '}
             {Math.min(
