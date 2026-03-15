@@ -12,25 +12,25 @@ import { useRouter } from 'next/navigation'
 const columns: ColumnDef<Equipment>[] = [
   {
     accessorKey: 'name',
-    header: 'שם',
+    header: 'שם הכלי',
     cell: ({ row }) => (
-      <Link
-        href={`/equipment/${row.original.id}`}
-        className="font-medium text-foreground hover:text-primary transition-colors"
-      >
-        {row.original.name}
-      </Link>
+      <div>
+        <Link
+          href={`/equipment/${row.original.id}`}
+          className="font-medium text-foreground hover:text-primary transition-colors"
+        >
+          {row.original.name}
+        </Link>
+        {row.original.equipment_code && (
+          <p className="text-xs text-muted-foreground">{row.original.equipment_code}</p>
+        )}
+      </div>
     ),
   },
   {
     accessorKey: 'category',
     header: 'קטגוריה',
     cell: ({ row }) => <StatusBadge status={row.original.category} />,
-  },
-  {
-    accessorKey: 'type_name',
-    header: 'סוג',
-    cell: ({ row }) => row.original.type_name || '—',
   },
   {
     accessorKey: 'status',
@@ -40,7 +40,32 @@ const columns: ColumnDef<Equipment>[] = [
   {
     accessorKey: 'chassis_number',
     header: 'מספר שלדה',
-    cell: ({ row }) => row.original.chassis_number || '—',
+    cell: ({ row }) => (
+      <span className="font-mono text-xs">{row.original.chassis_number || '—'}</span>
+    ),
+  },
+  {
+    accessorKey: 'insurance_company_mandatory',
+    header: 'ביטוח חובה',
+    cell: ({ row }) => {
+      const e = row.original as any
+      return (
+        <div>
+          <span className="text-[13px]">{e.insurance_company_mandatory || '—'}</span>
+          {e.insurance_mandatory_expiry && (
+            <p className="text-xs text-muted-foreground">{e.insurance_mandatory_expiry}</p>
+          )}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: 'purchase_cost',
+    header: 'עלות רכישה',
+    cell: ({ row }) =>
+      row.original.purchase_cost != null
+        ? `₪${Number(row.original.purchase_cost).toLocaleString()}`
+        : '—',
   },
   {
     accessorKey: 'hourly_cost',
