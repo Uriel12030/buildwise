@@ -7,7 +7,7 @@ import { createLogAction, updateLogAction, uploadLogFiles } from '@/features/log
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { NativeSelect } from '@/components/ui/native-select'
 import { FormFieldWrapper } from '@/components/forms/form-field-wrapper'
 import { FileUploader } from '@/components/forms/file-uploader'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -206,21 +206,17 @@ export function LogForm({
         <CardContent className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <FormFieldWrapper label="פרויקט" required error={errors.project_id?.message}>
-              <Select
-                value={watch('project_id')}
-                onValueChange={(v) => setValue('project_id', v!)}
+              <NativeSelect
+                value={watch('project_id') || ''}
+                onChange={(e) => setValue('project_id', e.target.value)}
+                placeholder="בחר פרויקט"
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="בחר פרויקט" />
-                </SelectTrigger>
-                <SelectContent>
-                  {projects.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name} ({p.project_code})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                {projects.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} ({p.project_code})
+                  </option>
+                ))}
+              </NativeSelect>
             </FormFieldWrapper>
 
             <FormFieldWrapper label="תאריך" required error={errors.log_date?.message}>
@@ -295,25 +291,21 @@ export function LogForm({
               {companyWorkersIndices.map((idx) => (
                 <div key={companyWorkerFields.fields[idx]?.id || idx} className="flex gap-3 items-end rounded-lg border p-3">
                   <FormFieldWrapper label="עובד" required className="flex-1">
-                    <Select
+                    <NativeSelect
                       value={watch(`workers.${idx}.employee_id`) || ''}
-                      onValueChange={(v) => {
-                        setValue(`workers.${idx}.employee_id`, v!)
-                        const emp = companyEmployees.find((e) => e.id === v)
+                      onChange={(e) => {
+                        setValue(`workers.${idx}.employee_id`, e.target.value)
+                        const emp = companyEmployees.find((emp) => emp.id === e.target.value)
                         if (emp) setValue(`workers.${idx}.role_title`, emp.role_title)
                       }}
+                      placeholder="בחר עובד"
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder="בחר עובד" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {companyEmployees.map((e) => (
-                          <SelectItem key={e.id} value={e.id}>
-                            {e.full_name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      {companyEmployees.map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.full_name}
+                        </option>
+                      ))}
+                    </NativeSelect>
                   </FormFieldWrapper>
                   <FormFieldWrapper label="תפקיד" className="w-32">
                     <Input
@@ -378,21 +370,17 @@ export function LogForm({
               {foreignWorkersIndices.map((idx) => (
                 <div key={companyWorkerFields.fields[idx]?.id || idx} className="flex gap-3 items-end rounded-lg border p-3">
                   <FormFieldWrapper label="עובד" required className="flex-1">
-                    <Select
+                    <NativeSelect
                       value={watch(`workers.${idx}.employee_id`) || ''}
-                      onValueChange={(v) => setValue(`workers.${idx}.employee_id`, v!)}
+                      onChange={(e) => setValue(`workers.${idx}.employee_id`, e.target.value)}
+                      placeholder="בחר פועל"
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder="בחר פועל" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {foreignWorkers.map((e) => (
-                          <SelectItem key={e.id} value={e.id}>
-                            {e.full_name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                      {foreignWorkers.map((e) => (
+                        <option key={e.id} value={e.id}>
+                          {e.full_name}
+                        </option>
+                      ))}
+                    </NativeSelect>
                   </FormFieldWrapper>
                   <FormFieldWrapper label="שעות" className="w-20">
                     <Input
@@ -694,19 +682,15 @@ export function LogForm({
         </CardHeader>
         <CardContent className="space-y-4">
           <FormFieldWrapper label="סטטוס יומן" error={errors.status?.message}>
-            <Select
+            <NativeSelect
               value={watch('status')}
-              onValueChange={(v) => v && setValue('status', v as any)}
+              onChange={(e) => setValue('status', e.target.value as any)}
+              className="w-40"
             >
-              <SelectTrigger className="w-40">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="draft">טיוטה</SelectItem>
-                <SelectItem value="submitted">הוגש</SelectItem>
-                <SelectItem value="approved">אושר</SelectItem>
-              </SelectContent>
-            </Select>
+              <option value="draft">טיוטה</option>
+              <option value="submitted">הוגש</option>
+              <option value="approved">אושר</option>
+            </NativeSelect>
           </FormFieldWrapper>
 
           <div className="flex gap-3">

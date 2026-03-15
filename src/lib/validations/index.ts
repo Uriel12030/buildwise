@@ -52,15 +52,7 @@ export const dailyLogWorkerSchema = z.object({
   hours_worked: z.number().min(0).max(24, 'Max 24 hours'),
   overtime_hours: z.number().min(0).max(24, 'Max 24 hours'),
   notes: z.string().optional().nullable(),
-}).refine(
-  (data) => {
-    if (data.worker_type === 'subcontractor') {
-      return !!data.worker_name
-    }
-    return !!data.employee_id
-  },
-  { message: 'Employee or worker name is required', path: ['employee_id'] }
-)
+})
 
 export const dailyLogActivitySchema = z.object({
   seq_number: z.number().min(1),
