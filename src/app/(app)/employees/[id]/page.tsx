@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/layout/empty-state'
 import { Pencil, FolderKanban, ClipboardList, Phone, Mail } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 
 export default async function EmployeeDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -70,7 +70,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
             </div>
             <div>
               <p className="text-xs text-gray-500">תחילת העסקה</p>
-              <p className="text-sm">{dayjs(employee.hire_date).format('MMM D, YYYY')}</p>
+              <p className="text-sm">{dayjs(employee.hire_date).format('D בMMM YYYY')}</p>
             </div>
             {employee.notes && (
               <div>
@@ -140,7 +140,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
                         {entry.daily_log?.project?.name}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {dayjs(entry.daily_log?.log_date).format('MMM D, YYYY')}
+                        {dayjs(entry.daily_log?.log_date).format('D בMMM YYYY')}
                       </p>
                     </div>
                     <span className="text-sm text-gray-600">

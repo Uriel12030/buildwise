@@ -5,7 +5,7 @@ import { StatusBadge } from '@/components/layout/status-badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { FolderKanban, Users, ClipboardList, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 import { DashboardCharts } from './charts'
 
 export default async function DashboardPage() {
@@ -54,7 +54,7 @@ export default async function DashboardPage() {
                         {(log.project as any)?.name}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {dayjs(log.log_date).format('MMM D, YYYY')} · {(log.site_manager as any)?.full_name} · {(log.workers as any[])?.length || 0} עובדים
+                        {dayjs(log.log_date).format('D בMMM YYYY')} · {(log.site_manager as any)?.full_name} · {(log.workers as any[])?.length || 0} עובדים
                       </p>
                     </div>
                     <StatusBadge status={log.status} />

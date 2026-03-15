@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Pencil, Calendar, CloudSun, ImageIcon, FileIcon } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 
 export default async function LogDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -21,7 +21,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`יומן עבודה — ${dayjs(log.log_date).format('MMM D, YYYY')}`}
+        title={`יומן עבודה — ${dayjs(log.log_date).format('D בMMM YYYY')}`}
         action={
           <Button asChild variant="outline" size="sm">
             <Link href={`/logs/${id}/edit`}>
@@ -37,7 +37,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
         <StatusBadge status={log.status} />
         <div className="flex items-center gap-2 text-sm text-gray-500">
           <Calendar className="h-4 w-4" />
-          {dayjs(log.log_date).format('dddd, MMMM D, YYYY')}
+          {dayjs(log.log_date).format('dddd, D בMMMM YYYY')}
         </div>
         {log.weather && (
           <div className="flex items-center gap-2 text-sm text-gray-500">

@@ -4,7 +4,7 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
 import Link from 'next/link'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 
 interface LogRow {
   id: string
@@ -25,7 +25,7 @@ const columns: ColumnDef<LogRow>[] = [
         href={`/logs/${row.original.id}`}
         className="font-medium text-blue-600 hover:underline"
       >
-        {dayjs(row.original.log_date).format('MMM D, YYYY')}
+        {dayjs(row.original.log_date).format('D בMMM YYYY')}
       </Link>
     ),
   },

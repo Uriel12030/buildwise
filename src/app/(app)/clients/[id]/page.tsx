@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/layout/empty-state'
 import { Pencil, FolderKanban, Phone, Mail, MapPin, Building2 } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 import { ClientDeleteButton } from './delete-button'
 
 export default async function ClientDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -85,7 +85,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
               </div>
             )}
             <div className="pt-2 border-t text-xs text-gray-400">
-              נוצר {dayjs(client.created_at).format('MMM D, YYYY')}
+              נוצר {dayjs(client.created_at).format('D בMMM YYYY')}
             </div>
           </CardContent>
         </Card>

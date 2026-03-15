@@ -7,7 +7,7 @@ import { EmptyState } from '@/components/layout/empty-state'
 import { Pencil, Users, ClipboardList, MapPin, Calendar, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 import { AssignEmployeeButton } from './assign-employee'
 
 export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -97,14 +97,14 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4 text-gray-400" />
             <span className="text-gray-500">התחלה:</span>
-            <span>{dayjs(project.start_date).format('MMM D, YYYY')}</span>
+            <span>{dayjs(project.start_date).format('D בMMM YYYY')}</span>
           </div>
         )}
         {project.end_date && (
           <div className="flex items-center gap-2 text-sm">
             <Calendar className="h-4 w-4 text-gray-400" />
             <span className="text-gray-500">סיום:</span>
-            <span>{dayjs(project.end_date).format('MMM D, YYYY')}</span>
+            <span>{dayjs(project.end_date).format('D בMMM YYYY')}</span>
           </div>
         )}
         {project.project_manager && (
@@ -143,7 +143,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-500">
-                        מאז {dayjs(pe.assigned_from).format('MMM D')}
+                        מאז {dayjs(pe.assigned_from).format('D בMMM')}
                       </p>
                       {pe.assigned_to && (
                         <span className="text-xs text-gray-400">הסתיים</span>
@@ -183,7 +183,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                   >
                     <div>
                       <p className="text-sm font-medium">
-                        {dayjs(log.log_date).format('MMM D, YYYY')}
+                        {dayjs(log.log_date).format('D בMMM YYYY')}
                       </p>
                       <p className="text-xs text-gray-500">
                         {log.site_manager?.full_name} · {log.workers?.length || 0} עובדים

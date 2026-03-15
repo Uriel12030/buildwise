@@ -4,7 +4,7 @@ import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
 import Link from 'next/link'
-import dayjs from 'dayjs'
+import dayjs from '@/lib/dayjs'
 
 interface ProjectRow {
   id: string
@@ -54,7 +54,7 @@ const columns: ColumnDef<ProjectRow>[] = [
     header: 'תאריך התחלה',
     cell: ({ row }) =>
       row.original.start_date
-        ? dayjs(row.original.start_date).format('MMM D, YYYY')
+        ? dayjs(row.original.start_date).format('D בMMM YYYY')
         : '—',
   },
   {
