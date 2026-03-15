@@ -74,12 +74,13 @@ export async function createLogAction(formData: DailyLogFormData, files?: FormDa
     .from('daily_logs')
     .insert({
       ...logData,
+      work_summary: logData.work_summary || '',
       site_manager_user_id: user.id,
     })
     .select()
     .single()
 
-  if (logError) throw logError
+  if (logError) throw new Error(logError.message)
 
   // Add workers
   if (workers && workers.length > 0) {
