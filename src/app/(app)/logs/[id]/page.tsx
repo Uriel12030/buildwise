@@ -130,7 +130,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
       {foreignWorkers.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">פועלים ({foreignWorkers.length})</CardTitle>
+            <CardTitle className="text-base">פועלים זרים ({foreignWorkers.length})</CardTitle>
           </CardHeader>
           <CardContent>
             <WorkerTable workers={foreignWorkers} />

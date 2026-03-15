@@ -354,16 +354,16 @@ export function LogForm({
       {/* Section 3: Foreign Workers */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">פועלים</CardTitle>
+          <CardTitle className="text-base">פועלים זרים</CardTitle>
           <Button type="button" size="sm" variant="outline" onClick={() => addWorker('foreign')}>
             <Plus className="ms-2 h-4 w-4" />
-            הוסף פועל
+            הוסף פועל זר
           </Button>
         </CardHeader>
         <CardContent>
           {foreignWorkersIndices.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-4">
-              טרם נוספו פועלים. לחץ &quot;הוסף פועל&quot; להתחיל.
+              טרם נוספו פועלים זרים. לחץ &quot;הוסף פועל זר&quot; להתחיל.
             </p>
           ) : (
             <div className="space-y-3">
