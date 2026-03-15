@@ -20,14 +20,16 @@ export default async function NewLogPage({
     <div className="space-y-6">
       <PageHeader title="יומן עבודה חדש" />
       <LogForm
-        projects={projects.map((p) => ({
-          id: p.id,
-          name: p.name,
-          project_code: p.project_code,
-          location: p.location,
-          client: p.client,
-          project_manager: p.project_manager,
-        }))}
+        projects={projects
+          .filter((p) => p.status === 'active')
+          .map((p) => ({
+            id: p.id,
+            name: p.name,
+            project_code: p.project_code,
+            location: p.location,
+            client: p.client,
+            project_manager: p.project_manager,
+          }))}
         companyEmployees={employeesByType.company.map((e) => ({
           id: e.id,
           full_name: e.full_name,

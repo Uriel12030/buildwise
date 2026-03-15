@@ -121,7 +121,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             <CardTitle className="text-base">כח אדם חברה ({companyWorkers.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <WorkerTable workers={companyWorkers} showEmployee />
+            <WorkerTable workers={companyWorkers} />
           </CardContent>
         </Card>
       )}
@@ -133,7 +133,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             <CardTitle className="text-base">פועלים ({foreignWorkers.length})</CardTitle>
           </CardHeader>
           <CardContent>
-            <WorkerTable workers={foreignWorkers} showEmployee />
+            <WorkerTable workers={foreignWorkers} />
           </CardContent>
         </Card>
       )}
@@ -338,7 +338,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
   )
 }
 
-function WorkerTable({ workers, showEmployee }: { workers: any[]; showEmployee?: boolean }) {
+function WorkerTable({ workers }: { workers: any[] }) {
   return (
     <div className="rounded-lg border">
       <table className="w-full text-sm">

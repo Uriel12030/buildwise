@@ -25,14 +25,16 @@ export default async function EditLogPage({ params }: { params: Promise<{ id: st
       <PageHeader title="עריכת יומן עבודה" />
       <LogForm
         log={log}
-        projects={projects.map((p: any) => ({
-          id: p.id,
-          name: p.name,
-          project_code: p.project_code,
-          location: p.location,
-          client: p.client,
-          project_manager: p.project_manager,
-        }))}
+        projects={projects
+          .filter((p: any) => p.status === 'active' || p.id === log.project_id)
+          .map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            project_code: p.project_code,
+            location: p.location,
+            client: p.client,
+            project_manager: p.project_manager,
+          }))}
         companyEmployees={employeesByType.company.map((e: any) => ({
           id: e.id,
           full_name: e.full_name,
