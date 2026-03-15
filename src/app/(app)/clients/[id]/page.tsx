@@ -28,7 +28,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
           <div className="flex gap-2">
             <Button asChild variant="outline">
               <Link href={`/clients/${id}/edit`}>
-                <Pencil className="mr-2 h-4 w-4" />
+                <Pencil className="me-2 h-4 w-4" />
                 עריכה
               </Link>
             </Button>
@@ -47,44 +47,44 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             <StatusBadge status={client.is_active ? 'active' : 'inactive'} />
             {client.company_number && (
               <div className="flex items-start gap-3">
-                <Building2 className="h-4 w-4 mt-0.5 text-gray-400" />
+                <Building2 className="h-4 w-4 mt-0.5 text-muted-foreground" />
                 <div>
-                  <p className="text-xs text-gray-500">ח.פ</p>
+                  <p className="text-xs text-muted-foreground">ח.פ</p>
                   <p className="text-sm">{client.company_number}</p>
                 </div>
               </div>
             )}
             {client.contact_name && (
               <div>
-                <p className="text-xs text-gray-500">איש קשר</p>
+                <p className="text-xs text-muted-foreground">איש קשר</p>
                 <p className="text-sm">{client.contact_name}</p>
               </div>
             )}
             {client.phone && (
               <div className="flex items-start gap-3">
-                <Phone className="h-4 w-4 mt-0.5 text-gray-400" />
+                <Phone className="h-4 w-4 mt-0.5 text-muted-foreground" />
                 <p className="text-sm">{client.phone}</p>
               </div>
             )}
             {client.email && (
               <div className="flex items-start gap-3">
-                <Mail className="h-4 w-4 mt-0.5 text-gray-400" />
+                <Mail className="h-4 w-4 mt-0.5 text-muted-foreground" />
                 <p className="text-sm">{client.email}</p>
               </div>
             )}
             {client.address && (
               <div className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 mt-0.5 text-gray-400" />
+                <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground" />
                 <p className="text-sm">{client.address}</p>
               </div>
             )}
             {client.notes && (
               <div>
-                <p className="text-xs text-gray-500">הערות</p>
+                <p className="text-xs text-muted-foreground">הערות</p>
                 <p className="text-sm whitespace-pre-wrap">{client.notes}</p>
               </div>
             )}
-            <div className="pt-2 border-t text-xs text-gray-400">
+            <div className="pt-2 border-t text-xs text-muted-foreground">
               נוצר {dayjs(client.created_at).format('D בMMM YYYY')}
             </div>
           </CardContent>
@@ -111,11 +111,11 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
                   <Link
                     key={project.id}
                     href={`/projects/${project.id}`}
-                    className="flex items-center justify-between rounded-lg border p-4 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between rounded-lg border p-4 hover:bg-muted transition-colors"
                   >
                     <div>
-                      <p className="font-medium text-gray-900">{project.name}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="font-medium text-foreground">{project.name}</p>
+                      <p className="text-sm text-muted-foreground">
                         {project.project_code}
                         {project.location && ` · ${project.location}`}
                       </p>

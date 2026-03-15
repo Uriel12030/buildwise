@@ -227,13 +227,13 @@ export function LogForm({
               <Input
                 value={selectedProject?.client?.name || ''}
                 readOnly
-                className="bg-gray-50"
+                className="bg-muted"
                 placeholder="יבחר אוטומטית לפי פרויקט"
               />
             </FormFieldWrapper>
 
             <FormFieldWrapper label="מנהל עבודה">
-              <Input value={currentUserName} readOnly className="bg-gray-50" />
+              <Input value={currentUserName} readOnly className="bg-muted" />
             </FormFieldWrapper>
 
             <FormFieldWrapper label="כתובת האתר" error={errors.site_address?.message}>
@@ -252,7 +252,7 @@ export function LogForm({
               <Input
                 value={selectedProject?.project_manager?.full_name || ''}
                 readOnly
-                className="bg-gray-50"
+                className="bg-muted"
                 placeholder="יבחר אוטומטית לפי פרויקט"
               />
             </FormFieldWrapper>
@@ -277,13 +277,13 @@ export function LogForm({
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">כח אדם חברה</CardTitle>
           <Button type="button" size="sm" variant="outline" onClick={() => addWorker('company')}>
-            <Plus className="ml-2 h-4 w-4" />
+            <Plus className="ms-2 h-4 w-4" />
             הוסף עובד
           </Button>
         </CardHeader>
         <CardContent>
           {companyWorkersIndices.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               טרם נוספו עובדי חברה. לחץ &quot;הוסף עובד&quot; להתחיל.
             </p>
           ) : (
@@ -311,7 +311,7 @@ export function LogForm({
                     <Input
                       value={watch(`workers.${idx}.role_title`) || ''}
                       readOnly
-                      className="bg-gray-50"
+                      className="bg-muted"
                     />
                   </FormFieldWrapper>
                   <FormFieldWrapper label="שעות" className="w-20">
@@ -356,13 +356,13 @@ export function LogForm({
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">פועלים</CardTitle>
           <Button type="button" size="sm" variant="outline" onClick={() => addWorker('foreign')}>
-            <Plus className="ml-2 h-4 w-4" />
+            <Plus className="ms-2 h-4 w-4" />
             הוסף פועל
           </Button>
         </CardHeader>
         <CardContent>
           {foreignWorkersIndices.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               טרם נוספו פועלים. לחץ &quot;הוסף פועל&quot; להתחיל.
             </p>
           ) : (
@@ -424,13 +424,13 @@ export function LogForm({
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">כח אדם קבלני משנה</CardTitle>
           <Button type="button" size="sm" variant="outline" onClick={() => addWorker('subcontractor')}>
-            <Plus className="ml-2 h-4 w-4" />
+            <Plus className="ms-2 h-4 w-4" />
             הוסף עובד
           </Button>
         </CardHeader>
         <CardContent>
           {subcontractorWorkersIndices.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               טרם נוספו עובדי קבלני משנה. לחץ &quot;הוסף עובד&quot; להתחיל.
             </p>
           ) : (
@@ -485,13 +485,13 @@ export function LogForm({
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">כלים וציוד חברה</CardTitle>
           <Button type="button" size="sm" variant="outline" onClick={() => addEquipment('company')}>
-            <Plus className="ml-2 h-4 w-4" />
+            <Plus className="ms-2 h-4 w-4" />
             הוסף ציוד
           </Button>
         </CardHeader>
         <CardContent>
           {companyEquipmentIndices.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               טרם נוסף ציוד חברה.
             </p>
           ) : (
@@ -528,13 +528,13 @@ export function LogForm({
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">כלים קבלני משנה</CardTitle>
           <Button type="button" size="sm" variant="outline" onClick={() => addEquipment('subcontractor')}>
-            <Plus className="ml-2 h-4 w-4" />
+            <Plus className="ms-2 h-4 w-4" />
             הוסף ציוד
           </Button>
         </CardHeader>
         <CardContent>
           {subEquipmentIndices.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-4">
+            <p className="text-sm text-muted-foreground text-center py-4">
               טרם נוסף ציוד קבלני משנה.
             </p>
           ) : (
@@ -583,7 +583,7 @@ export function LogForm({
               })
             }
           >
-            <Plus className="ml-2 h-4 w-4" />
+            <Plus className="ms-2 h-4 w-4" />
             הוסף שורה
           </Button>
         </CardHeader>
@@ -591,18 +591,18 @@ export function LogForm({
           <div className="rounded-lg border">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b bg-gray-50">
-                  <th className="px-3 py-2 text-right font-medium text-gray-500 w-16">מס&apos;</th>
-                  <th className="px-3 py-2 text-right font-medium text-gray-500">תיאור הפעולה</th>
-                  <th className="px-3 py-2 text-center font-medium text-gray-500 w-24">עבודה חריגה</th>
-                  <th className="px-3 py-2 text-right font-medium text-gray-500 w-40">הערות</th>
+                <tr className="border-b bg-muted">
+                  <th className="px-3 py-2 text-right font-medium text-muted-foreground w-16">מס&apos;</th>
+                  <th className="px-3 py-2 text-right font-medium text-muted-foreground">תיאור הפעולה</th>
+                  <th className="px-3 py-2 text-center font-medium text-muted-foreground w-24">עבודה חריגה</th>
+                  <th className="px-3 py-2 text-right font-medium text-muted-foreground w-40">הערות</th>
                   <th className="px-3 py-2 w-10"></th>
                 </tr>
               </thead>
               <tbody>
                 {activityFields.fields.map((field, index) => (
                   <tr key={field.id} className="border-b last:border-0">
-                    <td className="px-3 py-2 text-center text-gray-500">{index + 1}</td>
+                    <td className="px-3 py-2 text-center text-muted-foreground">{index + 1}</td>
                     <td className="px-3 py-1">
                       <Textarea
                         {...register(`activities.${index}.description`)}

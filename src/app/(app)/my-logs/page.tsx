@@ -24,7 +24,7 @@ export default async function MyLogsPage() {
         action={
           <Button asChild>
             <Link href="/logs/new">
-              <Plus className="ml-2 h-4 w-4" />
+              <Plus className="ms-2 h-4 w-4" />
               יומן חדש
             </Link>
           </Button>
@@ -47,18 +47,18 @@ export default async function MyLogsPage() {
           </CardHeader>
           <CardContent>
             {projects.length === 0 ? (
-              <p className="text-sm text-gray-500">אין פרויקטים משויכים</p>
+              <p className="text-sm text-muted-foreground">אין פרויקטים משויכים</p>
             ) : (
               <div className="space-y-2">
                 {projects.map((project: any) => (
                   <div key={project.id} className="flex items-center justify-between rounded-lg border p-3">
                     <div>
                       <p className="text-sm font-medium">{project.name}</p>
-                      <p className="text-xs text-gray-500">{project.client?.name}</p>
+                      <p className="text-xs text-muted-foreground">{project.client?.name}</p>
                     </div>
                     <Button asChild size="sm" variant="outline">
                       <Link href={`/logs/new?projectId=${project.id}`}>
-                        <Plus className="ml-1 h-3 w-3" />
+                        <Plus className="ms-1 h-3 w-3" />
                         יומן
                       </Link>
                     </Button>
@@ -89,19 +89,19 @@ export default async function MyLogsPage() {
                   <Link
                     key={log.id}
                     href={`/logs/${log.id}`}
-                    className="flex items-center justify-between rounded-lg border p-3 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted transition-colors"
                   >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <p className="text-sm font-medium">{log.project?.name}</p>
                         <StatusBadge status={log.status} />
                       </div>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         {dayjs(log.log_date).format('dddd, D בMMMM YYYY')} · {log.workers?.length || 0} עובדים
                       </p>
                     </div>
                     {log.status === 'draft' && (
-                      <Button size="sm" variant="outline" className="mr-2">
+                      <Button size="sm" variant="outline" className="me-2">
                         המשך עריכה
                       </Button>
                     )}

@@ -40,20 +40,20 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             {recentLogs.length === 0 ? (
-              <p className="text-sm text-gray-500">אין יומנים עדיין</p>
+              <p className="text-sm text-muted-foreground">אין יומנים עדיין</p>
             ) : (
               <div className="space-y-3">
                 {recentLogs.map((log) => (
                   <Link
                     key={log.id}
                     href={`/logs/${log.id}`}
-                    className="flex items-center justify-between rounded-lg border p-3 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between rounded-lg border p-3 hover:bg-muted transition-colors"
                   >
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-gray-900 truncate">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {(log.project as any)?.name}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         {dayjs(log.log_date).format('D בMMM YYYY')} · {(log.site_manager as any)?.full_name} · {(log.workers as any[])?.length || 0} עובדים
                       </p>
                     </div>
@@ -72,7 +72,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             {missingLogs.length === 0 ? (
-              <p className="text-sm text-gray-500">לכל הפרויקטים הפעילים יש יומן להיום</p>
+              <p className="text-sm text-muted-foreground">לכל הפרויקטים הפעילים יש יומן להיום</p>
             ) : (
               <div className="space-y-2">
                 {missingLogs.map((project) => (
@@ -81,12 +81,12 @@ export default async function DashboardPage() {
                     className="flex items-center justify-between rounded-lg border border-amber-100 bg-amber-50 p-3"
                   >
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{project.name}</p>
-                      <p className="text-xs text-gray-500">{project.project_code}</p>
+                      <p className="text-sm font-medium text-foreground">{project.name}</p>
+                      <p className="text-xs text-muted-foreground">{project.project_code}</p>
                     </div>
                     <Link
                       href={`/logs/new?projectId=${project.id}`}
-                      className="text-xs font-medium text-blue-600 hover:underline"
+                      className="text-xs font-medium text-brand hover:underline"
                     >
                       צור יומן
                     </Link>

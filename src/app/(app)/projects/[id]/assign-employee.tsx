@@ -44,7 +44,7 @@ export function AssignEmployeeButton({ projectId }: { projectId: string }) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Button size="sm" variant="outline">
-          <UserPlus className="mr-2 h-4 w-4" />
+          <UserPlus className="me-2 h-4 w-4" />
           שיוך
         </Button>
       </DialogTrigger>

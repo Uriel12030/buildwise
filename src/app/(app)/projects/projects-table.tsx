@@ -26,11 +26,11 @@ const columns: ColumnDef<ProjectRow>[] = [
       <div>
         <Link
           href={`/projects/${row.original.id}`}
-          className="font-medium text-blue-600 hover:underline"
+          className="font-medium text-brand hover:underline"
         >
           {row.original.name}
         </Link>
-        <p className="text-xs text-gray-500">{row.original.project_code}</p>
+        <p className="text-xs text-muted-foreground">{row.original.project_code}</p>
       </div>
     ),
   },

@@ -49,7 +49,7 @@ export function FileUploader({
           'flex flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 transition-colors cursor-pointer',
           dragActive
             ? 'border-blue-400 bg-blue-50'
-            : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+            : 'border-gray-200 hover:border-gray-300 hover:bg-muted'
         )}
         onDragOver={(e) => {
           e.preventDefault()
@@ -70,25 +70,25 @@ export function FileUploader({
           input.click()
         }}
       >
-        <Upload className="h-8 w-8 text-gray-400 mb-2" />
-        <p className="text-sm text-gray-600">
-          גרור קבצים לכאן או <span className="text-blue-600 font-medium">עיין</span>
+        <Upload className="h-8 w-8 text-muted-foreground mb-2" />
+        <p className="text-sm text-muted-foreground">
+          גרור קבצים לכאן או <span className="text-brand font-medium">עיין</span>
         </p>
-        <p className="text-xs text-gray-400 mt-1">תמונות, PDF, מסמכים</p>
+        <p className="text-xs text-muted-foreground mt-1">תמונות, PDF, מסמכים</p>
       </div>
 
       {/* Existing files */}
       {existingFiles.map((file) => (
         <div
           key={file.file_path}
-          className="flex items-center gap-3 rounded-lg border bg-gray-50 px-3 py-2"
+          className="flex items-center gap-3 rounded-lg border bg-muted px-3 py-2"
         >
           {file.file_type.startsWith('image/') ? (
-            <ImageIcon className="h-4 w-4 text-gray-400" />
+            <ImageIcon className="h-4 w-4 text-muted-foreground" />
           ) : (
-            <FileIcon className="h-4 w-4 text-gray-400" />
+            <FileIcon className="h-4 w-4 text-muted-foreground" />
           )}
-          <span className="text-sm text-gray-700 flex-1 truncate">{file.file_name}</span>
+          <span className="text-sm text-foreground flex-1 truncate">{file.file_name}</span>
           {onRemoveExisting && (
             <Button
               type="button"
@@ -117,7 +117,7 @@ export function FileUploader({
           ) : (
             <FileIcon className="h-4 w-4 text-blue-400" />
           )}
-          <span className="text-sm text-gray-700 flex-1 truncate">{file.name}</span>
+          <span className="text-sm text-foreground flex-1 truncate">{file.name}</span>
           <Button
             type="button"
             variant="ghost"

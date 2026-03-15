@@ -31,7 +31,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
         action={
           <Button asChild variant="outline" size="sm">
             <Link href={`/logs/${id}/edit`}>
-              <Pencil className="mr-2 h-4 w-4" />
+              <Pencil className="me-2 h-4 w-4" />
               עריכה
             </Link>
           </Button>
@@ -41,18 +41,18 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
       {/* Status and meta */}
       <div className="flex flex-wrap gap-4 items-center">
         <StatusBadge status={log.status} />
-        <div className="flex items-center gap-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Calendar className="h-4 w-4" />
           {dayjs(log.log_date).format('dddd, D בMMMM YYYY')}
         </div>
         {log.weather && (
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <CloudSun className="h-4 w-4" />
             {log.weather}
           </div>
         )}
         {(log.start_time || log.end_time) && (
-          <div className="flex items-center gap-2 text-sm text-gray-500">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Clock className="h-4 w-4" />
             {log.start_time || '—'} — {log.end_time || '—'}
           </div>
@@ -67,20 +67,20 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
         <CardContent>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div>
-              <p className="text-xs text-gray-500">פרויקט</p>
+              <p className="text-xs text-muted-foreground">פרויקט</p>
               <Link
                 href={`/projects/${log.project?.id}`}
-                className="text-sm font-medium text-blue-600 hover:underline"
+                className="text-sm font-medium text-brand hover:underline"
               >
                 {log.project?.name} ({log.project?.project_code})
               </Link>
             </div>
             {log.project?.client && (
               <div>
-                <p className="text-xs text-gray-500">מזמין עבודה</p>
+                <p className="text-xs text-muted-foreground">מזמין עבודה</p>
                 <Link
                   href={`/clients/${log.project.client.id}`}
-                  className="text-sm font-medium text-blue-600 hover:underline"
+                  className="text-sm font-medium text-brand hover:underline"
                 >
                   {log.project.client.name}
                 </Link>
@@ -88,25 +88,25 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             )}
             {log.site_manager && (
               <div>
-                <p className="text-xs text-gray-500">מנהל עבודה</p>
+                <p className="text-xs text-muted-foreground">מנהל עבודה</p>
                 <p className="text-sm font-medium">{log.site_manager.full_name}</p>
               </div>
             )}
             {log.site_address && (
               <div>
-                <p className="text-xs text-gray-500">כתובת האתר</p>
+                <p className="text-xs text-muted-foreground">כתובת האתר</p>
                 <p className="text-sm font-medium">{log.site_address}</p>
               </div>
             )}
             {log.main_contractor && (
               <div>
-                <p className="text-xs text-gray-500">קבלן ראשי</p>
+                <p className="text-xs text-muted-foreground">קבלן ראשי</p>
                 <p className="text-sm font-medium">{log.main_contractor}</p>
               </div>
             )}
             {log.project?.project_manager && (
               <div>
-                <p className="text-xs text-gray-500">מנהל פרויקט</p>
+                <p className="text-xs text-muted-foreground">מנהל פרויקט</p>
                 <p className="text-sm font-medium">{log.project.project_manager.full_name}</p>
               </div>
             )}
@@ -148,22 +148,22 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             <div className="rounded-lg border">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">שם עובד</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">תפקיד</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">שעות</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">נוספות</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+                  <tr className="border-b bg-muted">
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">שם עובד</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">תפקיד</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">שעות</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">נוספות</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">הערות</th>
                   </tr>
                 </thead>
                 <tbody>
                   {subcontractorWorkers.map((w: any) => (
                     <tr key={w.id} className="border-b last:border-0">
                       <td className="px-4 py-2">{w.worker_name || '—'}</td>
-                      <td className="px-4 py-2 text-gray-500">{w.role_title || '—'}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{w.role_title || '—'}</td>
                       <td className="px-4 py-2 text-right">{w.hours_worked}</td>
                       <td className="px-4 py-2 text-right">{w.overtime_hours}</td>
-                      <td className="px-4 py-2 text-gray-500">{w.notes || '—'}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{w.notes || '—'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -207,11 +207,11 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             <div className="rounded-lg border">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="px-4 py-2 text-right font-medium text-gray-500 w-16">מס&apos;</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">תיאור הפעולה</th>
-                    <th className="px-4 py-2 text-center font-medium text-gray-500 w-24">עבודה חריגה</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+                  <tr className="border-b bg-muted">
+                    <th className="px-4 py-2 text-right font-medium text-muted-foregroundw-16">מס&apos;</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">תיאור הפעולה</th>
+                    <th className="px-4 py-2 text-center font-medium text-muted-foregroundw-24">עבודה חריגה</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">הערות</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -219,10 +219,10 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
                     .sort((a: any, b: any) => a.seq_number - b.seq_number)
                     .map((a: any) => (
                       <tr key={a.id} className="border-b last:border-0">
-                        <td className="px-4 py-2 text-center text-gray-500">{a.seq_number}</td>
+                        <td className="px-4 py-2 text-center text-muted-foreground">{a.seq_number}</td>
                         <td className="px-4 py-2 whitespace-pre-wrap">{a.description}</td>
                         <td className="px-4 py-2 text-center">{a.is_irregular ? 'V' : ''}</td>
-                        <td className="px-4 py-2 text-gray-500">{a.notes || '—'}</td>
+                        <td className="px-4 py-2 text-muted-foreground">{a.notes || '—'}</td>
                       </tr>
                     ))}
                 </tbody>
@@ -242,11 +242,11 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             <div className="rounded-lg border">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b bg-gray-50">
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">חומר</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">כמות</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">ספק</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+                  <tr className="border-b bg-muted">
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">חומר</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">כמות</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">ספק</th>
+                    <th className="px-4 py-2 text-right font-medium text-muted-foreground">הערות</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -255,7 +255,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
                       <td className="px-4 py-2">{m.material_name}</td>
                       <td className="px-4 py-2">{m.quantity || '—'}</td>
                       <td className="px-4 py-2">{m.supplier || '—'}</td>
-                      <td className="px-4 py-2 text-gray-500">{m.notes || '—'}</td>
+                      <td className="px-4 py-2 text-muted-foreground">{m.notes || '—'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -314,11 +314,11 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
                   {file.file_type?.startsWith('image/') ? (
                     <ImageIcon className="h-5 w-5 text-blue-400" />
                   ) : (
-                    <FileIcon className="h-5 w-5 text-gray-400" />
+                    <FileIcon className="h-5 w-5 text-muted-foreground" />
                   )}
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium truncate">{file.file_name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       {dayjs(file.uploaded_at).format('MMM D, HH:mm')}
                     </p>
                   </div>
@@ -330,7 +330,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
       )}
 
       {/* Timestamps */}
-      <div className="text-xs text-gray-400 space-x-4">
+      <div className="text-xs text-muted-foreground space-x-4">
         <span>נוצר: {dayjs(log.created_at).format('MMM D, YYYY HH:mm')}</span>
         <span>עודכן: {dayjs(log.updated_at).format('MMM D, YYYY HH:mm')}</span>
       </div>
@@ -343,13 +343,13 @@ function WorkerTable({ workers }: { workers: any[] }) {
     <div className="rounded-lg border">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b bg-gray-50">
-            <th className="px-4 py-2 text-right font-medium text-gray-500">עובד</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">תפקיד</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">שעות</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">נוספות</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">תעריף</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+          <tr className="border-b bg-muted">
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">עובד</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">תפקיד</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">שעות</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">נוספות</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">תעריף</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">הערות</th>
           </tr>
         </thead>
         <tbody>
@@ -357,23 +357,23 @@ function WorkerTable({ workers }: { workers: any[] }) {
             <tr key={w.id} className="border-b last:border-0">
               <td className="px-4 py-2">
                 {w.employee ? (
-                  <Link href={`/employees/${w.employee.id}`} className="text-blue-600 hover:underline">
+                  <Link href={`/employees/${w.employee.id}`} className="text-brand hover:underline">
                     {w.employee.full_name}
                   </Link>
                 ) : (
                   w.worker_name || '—'
                 )}
               </td>
-              <td className="px-4 py-2 text-gray-500">{w.employee?.role_title || w.role_title || '—'}</td>
+              <td className="px-4 py-2 text-muted-foreground">{w.employee?.role_title || w.role_title || '—'}</td>
               <td className="px-4 py-2 text-right">{w.hours_worked}</td>
               <td className="px-4 py-2 text-right">{w.overtime_hours}</td>
               <td className="px-4 py-2 text-right">{w.employee?.hourly_rate ? `${w.employee.hourly_rate} \u20AA` : '—'}</td>
-              <td className="px-4 py-2 text-gray-500">{w.notes || '—'}</td>
+              <td className="px-4 py-2 text-muted-foreground">{w.notes || '—'}</td>
             </tr>
           ))}
         </tbody>
         <tfoot>
-          <tr className="bg-gray-50 font-medium">
+          <tr className="bg-muted font-medium">
             <td className="px-4 py-2" colSpan={2}>סה&quot;כ</td>
             <td className="px-4 py-2 text-right">
               {workers.reduce((sum: number, w: any) => sum + (w.hours_worked || 0), 0)}
@@ -394,10 +394,10 @@ function EquipmentTable({ items }: { items: any[] }) {
     <div className="rounded-lg border">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b bg-gray-50">
-            <th className="px-4 py-2 text-right font-medium text-gray-500">מס&apos; זיהוי</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">סוג</th>
-            <th className="px-4 py-2 text-right font-medium text-gray-500">הערות</th>
+          <tr className="border-b bg-muted">
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">מס&apos; זיהוי</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">סוג</th>
+            <th className="px-4 py-2 text-right font-medium text-muted-foreground">הערות</th>
           </tr>
         </thead>
         <tbody>
@@ -405,7 +405,7 @@ function EquipmentTable({ items }: { items: any[] }) {
             <tr key={e.id} className="border-b last:border-0">
               <td className="px-4 py-2">{e.identification_number || '—'}</td>
               <td className="px-4 py-2">{e.equipment_name}</td>
-              <td className="px-4 py-2 text-gray-500">{e.notes || '—'}</td>
+              <td className="px-4 py-2 text-muted-foreground">{e.notes || '—'}</td>
             </tr>
           ))}
         </tbody>

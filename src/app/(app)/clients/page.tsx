@@ -16,7 +16,7 @@ export default async function ClientsPage() {
         action={
           <Button asChild>
             <Link href="/clients/new">
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="me-2 h-4 w-4" />
               הוסף לקוח
             </Link>
           </Button>

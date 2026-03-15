@@ -16,7 +16,7 @@ export default async function ProjectsPage() {
         action={
           <Button asChild>
             <Link href="/projects/new">
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="me-2 h-4 w-4" />
               פרויקט חדש
             </Link>
           </Button>

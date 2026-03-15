@@ -30,7 +30,7 @@ export function ClientDeleteButton({ clientId, clientName }: { clientId: string;
   return (
     <>
       <Button variant="outline" className="text-red-600 hover:text-red-700" onClick={() => setOpen(true)}>
-        <Trash2 className="mr-2 h-4 w-4" />
+        <Trash2 className="me-2 h-4 w-4" />
         מחיקה
       </Button>
       <ConfirmDialog

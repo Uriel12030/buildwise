@@ -23,7 +23,7 @@ const columns: ColumnDef<LogRow>[] = [
     cell: ({ row }) => (
       <Link
         href={`/logs/${row.original.id}`}
-        className="font-medium text-blue-600 hover:underline"
+        className="font-medium text-brand hover:underline"
       >
         {dayjs(row.original.log_date).format('D בMMM YYYY')}
       </Link>
@@ -35,7 +35,7 @@ const columns: ColumnDef<LogRow>[] = [
     cell: ({ row }) => (
       <div>
         <p className="text-sm">{row.original.project?.name}</p>
-        <p className="text-xs text-gray-500">{row.original.project?.project_code}</p>
+        <p className="text-xs text-muted-foreground">{row.original.project?.project_code}</p>
       </div>
     ),
   },
@@ -58,7 +58,7 @@ const columns: ColumnDef<LogRow>[] = [
     accessorKey: 'work_summary',
     header: 'סיכום',
     cell: ({ row }) => (
-      <p className="text-sm text-gray-600 truncate max-w-xs">
+      <p className="text-sm text-muted-foreground truncate max-w-xs">
         {row.original.work_summary}
       </p>
     ),
