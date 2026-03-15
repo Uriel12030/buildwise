@@ -1,0 +1,202 @@
+import { getProject, getProjectEmployees, getProjectLogs } from '@/features/projects/actions'
+import { PageHeader } from '@/components/layout/page-header'
+import { StatusBadge } from '@/components/layout/status-badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { EmptyState } from '@/components/layout/empty-state'
+import { Pencil, Users, ClipboardList, MapPin, Calendar, Plus } from 'lucide-react'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import dayjs from 'dayjs'
+import { AssignEmployeeButton } from './assign-employee'
+
+export default async function ProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  let project: any, employees: any[], logs: any[]
+
+  try {
+    ;[project, employees, logs] = await Promise.all([
+      getProject(id),
+      getProjectEmployees(id),
+      getProjectLogs(id),
+    ])
+  } catch {
+    notFound()
+  }
+
+  return (
+    <div className="space-y-6">
+      <PageHeader
+        title={project.name}
+        action={
+          <div className="flex gap-2">
+            <Button asChild size="sm">
+              <Link href={`/logs/new?projectId=${id}`}>
+                <Plus className="mr-2 h-4 w-4" />
+                New Log
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <Link href={`/projects/${id}/edit`}>
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </Link>
+            </Button>
+          </div>
+        }
+      />
+
+      {/* Project Info */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs text-gray-500">Status</p>
+            <StatusBadge status={project.status} className="mt-1" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs text-gray-500">Client</p>
+            <Link href={`/clients/${project.client?.id}`} className="text-sm font-medium text-blue-600 hover:underline mt-1 block">
+              {project.client?.name}
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs text-gray-500">Code</p>
+            <p className="text-sm font-medium mt-1">{project.project_code}</p>
+          </CardContent>
+        </Card>
+        {project.location && (
+          <Card>
+            <CardContent className="p-4 flex items-start gap-2">
+              <MapPin className="h-4 w-4 text-gray-400 mt-0.5" />
+              <div>
+                <p className="text-xs text-gray-500">Location</p>
+                <p className="text-sm mt-1">{project.location}</p>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* Description */}
+      {project.description && (
+        <Card>
+          <CardContent className="p-4">
+            <p className="text-xs text-gray-500 mb-1">Description</p>
+            <p className="text-sm whitespace-pre-wrap">{project.description}</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Dates & People */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {project.start_date && (
+          <div className="flex items-center gap-2 text-sm">
+            <Calendar className="h-4 w-4 text-gray-400" />
+            <span className="text-gray-500">Start:</span>
+            <span>{dayjs(project.start_date).format('MMM D, YYYY')}</span>
+          </div>
+        )}
+        {project.end_date && (
+          <div className="flex items-center gap-2 text-sm">
+            <Calendar className="h-4 w-4 text-gray-400" />
+            <span className="text-gray-500">End:</span>
+            <span>{dayjs(project.end_date).format('MMM D, YYYY')}</span>
+          </div>
+        )}
+        {project.project_manager && (
+          <div className="text-sm">
+            <span className="text-gray-500">PM:</span>{' '}
+            <span className="font-medium">{project.project_manager.full_name}</span>
+          </div>
+        )}
+        {project.site_manager && (
+          <div className="text-sm">
+            <span className="text-gray-500">Site Manager:</span>{' '}
+            <span className="font-medium">{project.site_manager.full_name}</span>
+          </div>
+        )}
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Employees */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-base">Assigned Employees</CardTitle>
+            <AssignEmployeeButton projectId={id} />
+          </CardHeader>
+          <CardContent>
+            {employees.length === 0 ? (
+              <EmptyState icon={Users} title="No employees" description="Assign employees to this project." />
+            ) : (
+              <div className="space-y-2">
+                {employees.map((pe: any) => (
+                  <div key={pe.id} className="flex items-center justify-between rounded-lg border p-3">
+                    <div>
+                      <Link href={`/employees/${pe.employee?.id}`} className="text-sm font-medium text-blue-600 hover:underline">
+                        {pe.employee?.full_name}
+                      </Link>
+                      <p className="text-xs text-gray-500">{pe.employee?.role_title}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-xs text-gray-500">
+                        Since {dayjs(pe.assigned_from).format('MMM D')}
+                      </p>
+                      {pe.assigned_to && (
+                        <span className="text-xs text-gray-400">Ended</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Recent Logs */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-base">Recent Daily Logs</CardTitle>
+            <Button asChild size="sm" variant="outline">
+              <Link href={`/logs?projectId=${id}`}>View All</Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            {logs.length === 0 ? (
+              <EmptyState
+                icon={ClipboardList}
+                title="No logs"
+                description="Create the first daily log."
+                actionLabel="Create Log"
+                actionHref={`/logs/new?projectId=${id}`}
+              />
+            ) : (
+              <div className="space-y-2">
+                {logs.map((log: any) => (
+                  <Link
+                    key={log.id}
+                    href={`/logs/${log.id}`}
+                    className="flex items-center justify-between rounded-lg border p-3 hover:bg-gray-50 transition-colors"
+                  >
+                    <div>
+                      <p className="text-sm font-medium">
+                        {dayjs(log.log_date).format('MMM D, YYYY')}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {log.site_manager?.full_name} · {log.workers?.length || 0} workers
+                      </p>
+                    </div>
+                    <StatusBadge status={log.status} />
+                  </Link>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
