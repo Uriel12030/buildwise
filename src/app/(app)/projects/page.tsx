@@ -1,4 +1,4 @@
-import { getProjects } from '@/features/projects/actions'
+import { getProjectsWithStats } from '@/features/projects/actions'
 import { PageHeader } from '@/components/layout/page-header'
 import { Button } from '@/components/ui/button'
 import { Plus } from 'lucide-react'
@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ProjectsTable } from './projects-table'
 
 export default async function ProjectsPage() {
-  const projects = await getProjects()
+  const projects = await getProjectsWithStats()
 
   return (
     <div className="space-y-6">

@@ -163,3 +163,98 @@ export async function getUsers() {
   if (error) throw error
   return data
 }
+
+export async function getProjectsWithStats() {
+  const supabase = await createClient()
+
+  // Get projects with basic info
+  const { data: projects, error } = await supabase
+    .from('projects')
+    .select(`
+      *,
+      client:clients(id, name),
+      project_manager:users!projects_project_manager_user_id_fkey(id, full_name),
+      site_manager:users!projects_site_manager_user_id_fkey(id, full_name)
+    `)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+
+  // Get all logs with workers for cost calculation
+  const { data: allLogs } = await supabase
+    .from('daily_logs')
+    .select(`
+      id, project_id, log_date, status, work_summary,
+      workers:daily_log_workers(hours_worked, overtime_hours, employee:employees(hourly_rate))
+    `)
+    .order('log_date', { ascending: false })
+
+  // Build stats per project
+  const projectStats: Record<string, { logsCount: number; totalCost: number; recentLogs: any[] }> = {}
+
+  for (const log of (allLogs || [])) {
+    const pid = log.project_id
+    if (!projectStats[pid]) {
+      projectStats[pid] = { logsCount: 0, totalCost: 0, recentLogs: [] }
+    }
+    projectStats[pid].logsCount++
+
+    // Calculate log cost
+    let logCost = 0
+    for (const w of (log.workers || [])) {
+      const hours = (w.hours_worked || 0) + ((w.overtime_hours || 0) * 1.25)
+      const rate = (w.employee as any)?.hourly_rate || 0
+      logCost += hours * rate
+    }
+    projectStats[pid].totalCost += logCost
+
+    // Keep recent 10 logs
+    if (projectStats[pid].recentLogs.length < 10) {
+      projectStats[pid].recentLogs.push({
+        id: log.id,
+        log_date: log.log_date,
+        status: log.status,
+        work_summary: log.work_summary,
+        workerCount: (log.workers || []).length,
+        cost: logCost,
+      })
+    }
+  }
+
+  return (projects || []).map((p: any) => ({
+    ...p,
+    stats: projectStats[p.id] || { logsCount: 0, totalCost: 0, recentLogs: [] },
+  }))
+}
+
+export async function getProjectRecentLogs(projectId: string) {
+  const supabase = await createClient()
+  const { data, error } = await supabase
+    .from('daily_logs')
+    .select(`
+      id, log_date, status, work_summary,
+      workers:daily_log_workers(hours_worked, overtime_hours, employee:employees(hourly_rate))
+    `)
+    .eq('project_id', projectId)
+    .order('log_date', { ascending: false })
+    .limit(10)
+
+  if (error) throw error
+
+  return (data || []).map((log: any) => {
+    let cost = 0
+    for (const w of (log.workers || [])) {
+      const hours = (w.hours_worked || 0) + ((w.overtime_hours || 0) * 1.25)
+      const rate = (w.employee as any)?.hourly_rate || 0
+      cost += hours * rate
+    }
+    return {
+      id: log.id,
+      log_date: log.log_date,
+      status: log.status,
+      work_summary: log.work_summary,
+      workerCount: (log.workers || []).length,
+      cost,
+    }
+  })
+}
