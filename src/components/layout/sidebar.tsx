@@ -103,24 +103,25 @@ export function Sidebar() {
       )}
     >
       {/* Brand */}
-      <div className="flex h-14 items-center gap-2.5 border-b px-4">
+      <div
+        className={cn(
+          'flex h-14 items-center border-b cursor-pointer',
+          collapsed ? 'justify-center px-2' : 'gap-2.5 px-4'
+        )}
+        onClick={() => setCollapsed(!collapsed)}
+      >
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <HardHat className="h-4.5 w-4.5" />
         </div>
         {!collapsed && (
-          <div className="flex flex-col">
-            <span className="text-sm font-bold tracking-tight">BuildWise</span>
-            <span className="text-[10px] text-muted-foreground leading-none">ניהול תפעול</span>
-          </div>
+          <>
+            <div className="flex flex-col">
+              <span className="text-sm font-bold tracking-tight">BuildWise</span>
+              <span className="text-[10px] text-muted-foreground leading-none">ניהול תפעול</span>
+            </div>
+            <ChevronRight className="me-auto h-3.5 w-3.5 text-muted-foreground" />
+          </>
         )}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn('me-auto h-7 w-7 text-muted-foreground', collapsed && 'mx-auto')}
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <ChevronRight className={cn('h-3.5 w-3.5 transition-transform', collapsed && 'rotate-180')} />
-        </Button>
       </div>
 
       {/* Navigation */}
