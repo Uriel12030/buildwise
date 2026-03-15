@@ -57,7 +57,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
         <Card>
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground">לקוח</p>
-            <Link href={`/clients/${project.client?.id}`} className="text-sm font-medium text-brand hover:underline mt-1 block">
+            <Link href={`/clients/${project.client?.id}`} className="text-sm font-medium text-foreground hover:text-primary transition-colors mt-1 block">
               {project.client?.name}
             </Link>
           </CardContent>
@@ -136,7 +136,7 @@ export default async function ProjectDetailPage({ params }: { params: Promise<{ 
                 {employees.map((pe: any) => (
                   <div key={pe.id} className="flex items-center justify-between rounded-lg border p-3">
                     <div>
-                      <Link href={`/employees/${pe.employee?.id}`} className="text-sm font-medium text-brand hover:underline">
+                      <Link href={`/employees/${pe.employee?.id}`} className="text-sm font-medium text-foreground hover:text-primary transition-colors">
                         {pe.employee?.full_name}
                       </Link>
                       <p className="text-xs text-muted-foreground">{pe.employee?.role_title}</p>

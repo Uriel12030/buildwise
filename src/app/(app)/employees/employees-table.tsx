@@ -13,7 +13,7 @@ const columns: ColumnDef<Employee>[] = [
     cell: ({ row }) => (
       <Link
         href={`/employees/${row.original.id}`}
-        className="font-medium text-brand hover:underline"
+        className="font-medium text-foreground hover:text-primary transition-colors"
       >
         {row.original.full_name}
       </Link>

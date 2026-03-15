@@ -26,7 +26,7 @@ const columns: ColumnDef<ProjectRow>[] = [
       <div>
         <Link
           href={`/projects/${row.original.id}`}
-          className="font-medium text-brand hover:underline"
+          className="font-medium text-foreground hover:text-primary transition-colors"
         >
           {row.original.name}
         </Link>

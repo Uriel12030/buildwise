@@ -86,7 +86,7 @@ export default async function DashboardPage() {
                     </div>
                     <Link
                       href={`/logs/new?projectId=${project.id}`}
-                      className="text-xs font-medium text-brand hover:underline"
+                      className="text-xs font-medium text-foreground hover:text-primary transition-colors"
                     >
                       צור יומן
                     </Link>

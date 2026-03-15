@@ -70,7 +70,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
               <p className="text-xs text-muted-foreground">פרויקט</p>
               <Link
                 href={`/projects/${log.project?.id}`}
-                className="text-sm font-medium text-brand hover:underline"
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
               >
                 {log.project?.name} ({log.project?.project_code})
               </Link>
@@ -80,7 +80,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
                 <p className="text-xs text-muted-foreground">מזמין עבודה</p>
                 <Link
                   href={`/clients/${log.project.client.id}`}
-                  className="text-sm font-medium text-brand hover:underline"
+                  className="text-sm font-medium text-foreground hover:text-primary transition-colors"
                 >
                   {log.project.client.name}
                 </Link>
@@ -357,7 +357,7 @@ function WorkerTable({ workers }: { workers: any[] }) {
             <tr key={w.id} className="border-b last:border-0">
               <td className="px-4 py-2">
                 {w.employee ? (
-                  <Link href={`/employees/${w.employee.id}`} className="text-brand hover:underline">
+                  <Link href={`/employees/${w.employee.id}`} className="text-foreground hover:text-primary transition-colors">
                     {w.employee.full_name}
                   </Link>
                 ) : (

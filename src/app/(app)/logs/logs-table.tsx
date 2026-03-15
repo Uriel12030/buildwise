@@ -23,7 +23,7 @@ const columns: ColumnDef<LogRow>[] = [
     cell: ({ row }) => (
       <Link
         href={`/logs/${row.original.id}`}
-        className="font-medium text-brand hover:underline"
+        className="font-medium text-foreground hover:text-primary transition-colors"
       >
         {dayjs(row.original.log_date).format('D בMMM YYYY')}
       </Link>
