@@ -3,7 +3,10 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
+import { quickAddInventoryItem } from '@/features/inventory/actions'
 import type { InventoryItem } from '@/types'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const columns: ColumnDef<InventoryItem>[] = [
   {
@@ -41,12 +44,25 @@ const columns: ColumnDef<InventoryItem>[] = [
 ]
 
 export function InventoryTable({ data }: { data: InventoryItem[] }) {
+  const router = useRouter()
   return (
     <DataTable
       columns={columns}
       data={data}
       searchKey="name"
       searchPlaceholder="חיפוש מלאי..."
+      quickAdd={{
+        placeholder: 'הקלד שם פריט חדש ולחץ Enter...',
+        onAdd: async (name) => {
+          try {
+            await quickAddInventoryItem(name)
+            toast.success('הפריט נוצר')
+            router.refresh()
+          } catch (e: any) {
+            toast.error(e.message || 'שגיאה ביצירת פריט')
+          }
+        },
+      }}
     />
   )
 }

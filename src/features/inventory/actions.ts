@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/db/supabase-server'
+import { revalidatePath } from 'next/cache'
 
 export async function getInventoryItems() {
   const supabase = await createClient()
@@ -23,4 +24,11 @@ export async function getInventoryItem(id: string) {
 
   if (error) throw error
   return data
+}
+
+export async function quickAddInventoryItem(name: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('inventory_items').insert({ name, quantity: 0, status: 'available' })
+  if (error) throw error
+  revalidatePath('/inventory')
 }

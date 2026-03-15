@@ -3,8 +3,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
+import { quickAddEmployee } from '@/features/employees/actions'
 import type { Employee } from '@/types'
 import Link from 'next/link'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const columns: ColumnDef<Employee>[] = [
   {
@@ -46,12 +49,25 @@ const columns: ColumnDef<Employee>[] = [
 ]
 
 export function EmployeesTable({ data }: { data: Employee[] }) {
+  const router = useRouter()
   return (
     <DataTable
       columns={columns}
       data={data}
       searchKey="full_name"
       searchPlaceholder="חיפוש עובדים..."
+      quickAdd={{
+        placeholder: 'הקלד שם עובד חדש ולחץ Enter...',
+        onAdd: async (name) => {
+          try {
+            await quickAddEmployee(name)
+            toast.success('העובד נוצר')
+            router.refresh()
+          } catch (e: any) {
+            toast.error(e.message || 'שגיאה ביצירת עובד')
+          }
+        },
+      }}
     />
   )
 }

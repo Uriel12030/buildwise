@@ -21,8 +21,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
-import { Search, ChevronLeft, ChevronRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { Search, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -30,6 +29,11 @@ interface DataTableProps<TData, TValue> {
   searchKey?: string
   searchPlaceholder?: string
   pageSize?: number
+  /** Quick-add row config: placeholder text and callback with the entered name */
+  quickAdd?: {
+    placeholder: string
+    onAdd: (name: string) => Promise<void> | void
+  }
 }
 
 export function DataTable<TData, TValue>({
@@ -38,9 +42,12 @@ export function DataTable<TData, TValue>({
   searchKey,
   searchPlaceholder = 'חיפוש...',
   pageSize = 15,
+  quickAdd,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [quickAddValue, setQuickAddValue] = useState('')
+  const [quickAddLoading, setQuickAddLoading] = useState(false)
 
   const table = useReactTable({
     data,
@@ -55,6 +62,17 @@ export function DataTable<TData, TValue>({
     state: { sorting, globalFilter },
     initialState: { pagination: { pageSize } },
   })
+
+  const handleQuickAdd = async () => {
+    if (!quickAdd || !quickAddValue.trim() || quickAddLoading) return
+    setQuickAddLoading(true)
+    try {
+      await quickAdd.onAdd(quickAddValue.trim())
+      setQuickAddValue('')
+    } finally {
+      setQuickAddLoading(false)
+    }
+  }
 
   return (
     <div className="space-y-0">
@@ -113,6 +131,41 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-32 text-center text-muted-foreground">
                   לא נמצאו תוצאות.
+                </TableCell>
+              </TableRow>
+            )}
+
+            {/* Quick Add Row */}
+            {quickAdd && (
+              <TableRow className="border-t border-border/40 bg-muted/10 hover:bg-muted/20 transition-colors">
+                <TableCell colSpan={columns.length} className="py-0 px-0">
+                  <div className="flex items-center h-11">
+                    <div className="flex items-center gap-2 px-3 text-muted-foreground/60">
+                      <Plus className="h-4 w-4" />
+                    </div>
+                    <input
+                      type="text"
+                      value={quickAddValue}
+                      onChange={(e) => setQuickAddValue(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') handleQuickAdd()
+                      }}
+                      placeholder={quickAdd.placeholder}
+                      disabled={quickAddLoading}
+                      className="flex-1 h-full bg-transparent text-[13px] text-foreground placeholder:text-muted-foreground/40 outline-none border-none"
+                    />
+                    {quickAddValue.trim() && (
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="me-2 h-7 text-xs text-primary hover:text-primary"
+                        onClick={handleQuickAdd}
+                        disabled={quickAddLoading}
+                      >
+                        {quickAddLoading ? 'מוסיף...' : 'הוסף ↵'}
+                      </Button>
+                    )}
+                  </div>
                 </TableCell>
               </TableRow>
             )}

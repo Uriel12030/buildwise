@@ -83,3 +83,11 @@ export async function deleteClientAction(id: string) {
   if (error) throw error
   revalidatePath('/clients')
 }
+
+export async function quickAddClient(name: string) {
+  await requireRole(['admin', 'office_manager'])
+  const supabase = await createClient()
+  const { error } = await supabase.from('clients').insert({ name, is_active: true })
+  if (error) throw error
+  revalidatePath('/clients')
+}

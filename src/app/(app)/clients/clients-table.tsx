@@ -3,8 +3,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
+import { quickAddClient } from '@/features/clients/actions'
 import type { Client } from '@/types'
 import Link from 'next/link'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const columns: ColumnDef<Client>[] = [
   {
@@ -44,12 +47,25 @@ const columns: ColumnDef<Client>[] = [
 ]
 
 export function ClientsTable({ data }: { data: Client[] }) {
+  const router = useRouter()
   return (
     <DataTable
       columns={columns}
       data={data}
       searchKey="name"
       searchPlaceholder="חיפוש לקוחות..."
+      quickAdd={{
+        placeholder: 'הקלד שם לקוח חדש ולחץ Enter...',
+        onAdd: async (name) => {
+          try {
+            await quickAddClient(name)
+            toast.success('הלקוח נוצר')
+            router.refresh()
+          } catch (e: any) {
+            toast.error(e.message || 'שגיאה ביצירת לקוח')
+          }
+        },
+      }}
     />
   )
 }

@@ -108,3 +108,18 @@ export async function deleteEmployeeAction(id: string) {
   if (error) throw error
   revalidatePath('/employees')
 }
+
+export async function quickAddEmployee(fullName: string) {
+  await requireRole(['admin', 'office_manager'])
+  const supabase = await createClient()
+  const { error } = await supabase.from('employees').insert({ 
+    full_name: fullName, 
+    role_title: 'עובד', 
+    employee_type: 'field',
+    hourly_rate: 0,
+    status: 'active',
+    hire_date: new Date().toISOString().split('T')[0]
+  })
+  if (error) throw error
+  revalidatePath('/employees')
+}

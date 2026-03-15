@@ -68,3 +68,10 @@ export async function updateEquipment(id: string, input: Record<string, unknown>
   revalidatePath(`/equipment/${id}`)
   return data
 }
+
+export async function quickAddEquipment(name: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('equipment').insert({ name, category: 'other', status: 'active' })
+  if (error) throw error
+  revalidatePath('/equipment')
+}

@@ -3,8 +3,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
+import { quickAddEquipment } from '@/features/equipment/actions'
 import type { Equipment } from '@/types'
 import Link from 'next/link'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const columns: ColumnDef<Equipment>[] = [
   {
@@ -48,12 +51,25 @@ const columns: ColumnDef<Equipment>[] = [
 ]
 
 export function EquipmentTable({ data }: { data: Equipment[] }) {
+  const router = useRouter()
   return (
     <DataTable
       columns={columns}
       data={data}
       searchKey="name"
       searchPlaceholder="חיפוש ציוד..."
+      quickAdd={{
+        placeholder: 'הקלד שם ציוד/כלי חדש ולחץ Enter...',
+        onAdd: async (name) => {
+          try {
+            await quickAddEquipment(name)
+            toast.success('הציוד נוצר')
+            router.refresh()
+          } catch (e: any) {
+            toast.error(e.message || 'שגיאה ביצירת ציוד')
+          }
+        },
+      }}
     />
   )
 }

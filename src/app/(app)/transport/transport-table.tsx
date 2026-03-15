@@ -3,8 +3,11 @@
 import { type ColumnDef } from '@tanstack/react-table'
 import { DataTable } from '@/components/tables/data-table'
 import { StatusBadge } from '@/components/layout/status-badge'
+import { quickAddTransportLog } from '@/features/transport/actions'
 import type { TransportLog } from '@/types'
 import dayjs from '@/lib/dayjs'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const columns: ColumnDef<TransportLog>[] = [
   {
@@ -51,12 +54,25 @@ const columns: ColumnDef<TransportLog>[] = [
 ]
 
 export function TransportTable({ data }: { data: TransportLog[] }) {
+  const router = useRouter()
   return (
     <DataTable
       columns={columns}
       data={data}
       searchKey="from_project_name"
       searchPlaceholder="חיפוש יומני משאית..."
+      quickAdd={{
+        placeholder: 'הקלד תיאור הובלה חדשה ולחץ Enter...',
+        onAdd: async (desc) => {
+          try {
+            await quickAddTransportLog(desc)
+            toast.success('היומן נוצר')
+            router.refresh()
+          } catch (e: any) {
+            toast.error(e.message || 'שגיאה ביצירת יומן')
+          }
+        },
+      }}
     />
   )
 }

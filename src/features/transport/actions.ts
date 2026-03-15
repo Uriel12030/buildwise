@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/db/supabase-server'
+import { revalidatePath } from 'next/cache'
 
 export async function getTransportLogs(filters?: {
   fromDate?: string
@@ -38,4 +39,15 @@ export async function getTransportLog(id: string) {
 
   if (error) throw error
   return data
+}
+
+export async function quickAddTransportLog(description: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from('transport_logs').insert({ 
+    log_date: new Date().toISOString().split('T')[0],
+    transport_type: 'delivery',
+    notes: description
+  })
+  if (error) throw error
+  revalidatePath('/transport')
 }
