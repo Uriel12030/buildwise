@@ -24,14 +24,14 @@ export default async function AppLayout({
         </div>
 
         {/* Mobile header */}
-        <div className="sticky top-0 z-40 flex h-14 items-center gap-4 border-b backdrop-blur-lg bg-background/80 px-4 lg:hidden">
+        <div className="sticky top-0 z-40 flex h-14 items-center gap-4 shadow-sm backdrop-blur-lg bg-background/80 px-4 lg:hidden">
           <MobileSidebar />
           <span className="text-lg font-bold text-foreground">BuildWise</span>
         </div>
 
         {/* Main content */}
-        <main className="lg:pe-64 min-h-screen">
-          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">{children}</div>
+        <main className="lg:pe-[260px] min-h-screen">
+          <div className="mx-auto max-w-[1200px] px-6 py-8 lg:px-10 lg:py-10">{children}</div>
         </main>
       </div>
     </AuthProvider>

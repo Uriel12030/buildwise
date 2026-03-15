@@ -14,17 +14,22 @@ import {
   HardHat,
   ChevronRight,
   FileText,
+  Settings,
+  Search,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
-const navigation = [
+const mainNav = [
   { name: 'לוח בקרה', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'היומנים שלי', href: '/my-logs', icon: FileText },
+]
+
+const managementNav = [
   { name: 'לקוחות', href: '/clients', icon: Building2 },
   { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
   { name: 'עובדים', href: '/employees', icon: Users },
   { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
-  { name: 'היומנים שלי', href: '/my-logs', icon: FileText },
 ]
 
 const roleLabels: Record<string, string> = {
@@ -32,6 +37,46 @@ const roleLabels: Record<string, string> = {
   office_manager: 'מנהלת משרד',
   project_manager: 'מנהל פרויקט',
   site_manager: 'מנהל עבודה',
+}
+
+function NavSection({ label, items, pathname, collapsed }: {
+  label: string
+  items: typeof mainNav
+  pathname: string
+  collapsed: boolean
+}) {
+  return (
+    <div className="space-y-1">
+      {!collapsed && (
+        <p className="px-3 pt-4 pb-1 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground/50">
+          {label}
+        </p>
+      )}
+      {items.map((item) => {
+        const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+        return (
+          <Link
+            key={item.name}
+            href={item.href}
+            className={cn(
+              'group relative flex items-center gap-3 rounded-lg px-3 py-2 text-[13px] font-medium transition-all duration-150',
+              isActive
+                ? 'bg-primary/10 text-primary font-semibold'
+                : 'text-muted-foreground hover:bg-accent hover:text-foreground',
+              collapsed && 'justify-center px-2'
+            )}
+            title={collapsed ? item.name : undefined}
+          >
+            <item.icon className={cn('h-[18px] w-[18px] shrink-0', isActive && 'text-primary')} />
+            {!collapsed && <span>{item.name}</span>}
+            {isActive && !collapsed && (
+              <div className="absolute inset-y-1 end-0 w-[3px] rounded-full bg-primary" />
+            )}
+          </Link>
+        )
+      })}
+    </div>
+  )
 }
 
 export function Sidebar() {
@@ -42,84 +87,67 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 end-0 z-50 flex flex-col border-s border-border bg-gradient-to-b from-card to-muted/20 transition-all duration-300',
-        collapsed ? 'w-16' : 'w-64'
+        'fixed inset-y-0 end-0 z-50 flex flex-col border-s bg-card/50 backdrop-blur-xl transition-all duration-300',
+        collapsed ? 'w-[60px]' : 'w-[260px]'
       )}
     >
-      {/* Logo */}
-      <div className="flex h-[72px] items-center gap-2 border-b border-border/60 px-4">
-        <HardHat className="h-8 w-8 shrink-0 text-brand" />
+      {/* Brand */}
+      <div className="flex h-14 items-center gap-2.5 border-b px-4">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <HardHat className="h-4.5 w-4.5" />
+        </div>
         {!collapsed && (
-          <>
-            <div className="w-1 h-5 rounded-full bg-brand/60" />
-            <span className="text-lg font-semibold text-foreground">BuildWise</span>
-          </>
-        )}
-        <Button
-          variant="ghost"
-          size="icon"
-          className={cn('me-auto h-8 w-8', collapsed && 'mx-auto')}
-          onClick={() => setCollapsed(!collapsed)}
-        >
-          <ChevronRight
-            className={cn(
-              'h-4 w-4 transition-transform',
-              collapsed && 'rotate-180'
-            )}
-          />
-        </Button>
-      </div>
-
-      {/* Nav */}
-      <nav className="flex-1 space-y-0.5 px-2 py-4">
-        {!collapsed && <p className="px-3 mb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/60">ניווט</p>}
-        {navigation.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(item.href + '/')
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={cn(
-                'relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
-                isActive
-                  ? 'bg-brand-light text-brand font-semibold'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground',
-                collapsed && 'justify-center px-2'
-              )}
-              title={collapsed ? item.name : undefined}
-            >
-              <item.icon className="h-5 w-5 shrink-0" />
-              {!collapsed && item.name}
-              {isActive && (
-                <div className="absolute inset-y-1 end-0 w-[3px] rounded-full bg-brand" />
-              )}
-            </Link>
-          )
-        })}
-      </nav>
-
-      {/* User */}
-      <div className="border-t p-3">
-        {user && !collapsed && (
-          <div className="mb-2 bg-muted/40 rounded-xl mx-0 p-2">
-            <p className="text-sm font-medium text-foreground truncate">
-              {user.full_name}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {roleLabels[user.role] || user.role}
-            </p>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold tracking-tight">BuildWise</span>
+            <span className="text-[10px] text-muted-foreground leading-none">ניהול תפעול</span>
           </div>
         )}
         <Button
           variant="ghost"
-          size={collapsed ? 'icon' : 'default'}
-          className={cn('w-full text-muted-foreground', !collapsed && 'justify-start')}
-          onClick={signOut}
+          size="icon"
+          className={cn('me-auto h-7 w-7 text-muted-foreground', collapsed && 'mx-auto')}
+          onClick={() => setCollapsed(!collapsed)}
         >
-          <LogOut className="h-4 w-4 shrink-0" />
-          {!collapsed && <span className="me-2">התנתקות</span>}
+          <ChevronRight className={cn('h-3.5 w-3.5 transition-transform', collapsed && 'rotate-180')} />
         </Button>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-2 py-2">
+        <NavSection label="ראשי" items={mainNav} pathname={pathname} collapsed={collapsed} />
+        <NavSection label="ניהול" items={managementNav} pathname={pathname} collapsed={collapsed} />
+      </nav>
+
+      {/* User */}
+      <div className="border-t p-2">
+        {user && !collapsed ? (
+          <div className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-accent transition-colors">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-bold">
+              {user.full_name.charAt(0)}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-foreground truncate">{user.full_name}</p>
+              <p className="text-[11px] text-muted-foreground">{roleLabels[user.role] || user.role}</p>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 shrink-0 text-muted-foreground hover:text-foreground"
+              onClick={signOut}
+            >
+              <LogOut className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-full text-muted-foreground"
+            onClick={signOut}
+          >
+            <LogOut className="h-4 w-4" />
+          </Button>
+        )}
       </div>
     </aside>
   )
