@@ -19,7 +19,7 @@ interface LogRow {
 const columns: ColumnDef<LogRow>[] = [
   {
     accessorKey: 'log_date',
-    header: 'Date',
+    header: 'תאריך',
     cell: ({ row }) => (
       <Link
         href={`/logs/${row.original.id}`}

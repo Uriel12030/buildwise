@@ -51,11 +51,11 @@ export function ClientForm({ client }: ClientFormProps) {
     try {
       if (isEdit) {
         await updateClientAction(client.id, data)
-        toast.success('Client updated')
+        toast.success('הלקוח עודכן')
         router.push(`/clients/${client.id}`)
       } else {
         const newClient = await createClientAction(data)
-        toast.success('Client created')
+        toast.success('הלקוח נוצר')
         router.push(`/clients/${newClient.id}`)
       }
     } catch (error: any) {
@@ -68,35 +68,35 @@ export function ClientForm({ client }: ClientFormProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{isEdit ? 'Edit Client' : 'New Client'}</CardTitle>
+        <CardTitle>{isEdit ? 'עריכת לקוח' : 'לקוח חדש'}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Company Name" required error={errors.name?.message}>
+            <FormFieldWrapper label="שם חברה" required error={errors.name?.message}>
               <Input {...register('name')} />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Company Number" error={errors.company_number?.message}>
+            <FormFieldWrapper label="ח.פ / ע.מ" error={errors.company_number?.message}>
               <Input {...register('company_number')} />
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Contact Name" error={errors.contact_name?.message}>
+            <FormFieldWrapper label="איש קשר" error={errors.contact_name?.message}>
               <Input {...register('contact_name')} />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Phone" error={errors.phone?.message}>
+            <FormFieldWrapper label="טלפון" error={errors.phone?.message}>
               <Input {...register('phone')} />
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Email" error={errors.email?.message}>
+            <FormFieldWrapper label="אימייל" error={errors.email?.message}>
               <Input {...register('email')} type="email" />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Address" error={errors.address?.message}>
+            <FormFieldWrapper label="כתובת" error={errors.address?.message}>
               <Input {...register('address')} />
             </FormFieldWrapper>
           </div>
-          <FormFieldWrapper label="Notes">
+          <FormFieldWrapper label="הערות">
             <Textarea {...register('notes')} rows={3} />
           </FormFieldWrapper>
           <div className="flex items-center gap-2">
@@ -105,14 +105,14 @@ export function ClientForm({ client }: ClientFormProps) {
               checked={watch('is_active')}
               onCheckedChange={(checked: boolean) => setValue('is_active', checked)}
             />
-            <label htmlFor="is_active" className="text-sm">Active</label>
+            <label htmlFor="is_active" className="text-sm">פעיל</label>
           </div>
           <div className="flex gap-3 pt-4">
             <Button type="submit" disabled={loading}>
-              {loading ? 'Saving...' : isEdit ? 'Update Client' : 'Create Client'}
+              {loading ? 'שומר...' : isEdit ? 'עדכן לקוח' : 'צור לקוח'}
             </Button>
             <Button type="button" variant="outline" onClick={() => router.back()}>
-              Cancel
+              ביטול
             </Button>
           </div>
         </form>

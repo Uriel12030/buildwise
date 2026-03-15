@@ -14,7 +14,7 @@ export default async function EditEmployeePage({ params }: { params: Promise<{ i
 
   return (
     <div className="space-y-6">
-      <PageHeader title={`Edit ${employee.full_name}`} />
+      <PageHeader title={`עריכת ${employee.full_name}`} />
       <EmployeeForm employee={employee} />
     </div>
   )

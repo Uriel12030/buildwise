@@ -21,7 +21,7 @@ interface ProjectRow {
 const columns: ColumnDef<ProjectRow>[] = [
   {
     accessorKey: 'name',
-    header: 'Project',
+    header: 'פרויקט',
     cell: ({ row }) => (
       <div>
         <Link
@@ -36,22 +36,22 @@ const columns: ColumnDef<ProjectRow>[] = [
   },
   {
     accessorKey: 'client.name',
-    header: 'Client',
+    header: 'לקוח',
     cell: ({ row }) => row.original.client?.name || '—',
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: 'סטטוס',
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
   },
   {
     accessorKey: 'location',
-    header: 'Location',
+    header: 'מיקום',
     cell: ({ row }) => row.original.location || '—',
   },
   {
     accessorKey: 'start_date',
-    header: 'Start Date',
+    header: 'תאריך התחלה',
     cell: ({ row }) =>
       row.original.start_date
         ? dayjs(row.original.start_date).format('MMM D, YYYY')
@@ -59,7 +59,7 @@ const columns: ColumnDef<ProjectRow>[] = [
   },
   {
     accessorKey: 'project_manager.full_name',
-    header: 'PM',
+    header: 'מנהל פרויקט',
     cell: ({ row }) => row.original.project_manager?.full_name || '—',
   },
 ]
@@ -70,7 +70,7 @@ export function ProjectsTable({ data }: { data: ProjectRow[] }) {
       columns={columns}
       data={data}
       searchKey="name"
-      searchPlaceholder="Search projects..."
+      searchPlaceholder="חיפוש פרויקטים..."
     />
   )
 }

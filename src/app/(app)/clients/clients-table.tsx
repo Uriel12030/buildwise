@@ -9,7 +9,7 @@ import Link from 'next/link'
 const columns: ColumnDef<Client>[] = [
   {
     accessorKey: 'name',
-    header: 'Name',
+    header: 'שם',
     cell: ({ row }) => (
       <Link
         href={`/clients/${row.original.id}`}
@@ -21,22 +21,22 @@ const columns: ColumnDef<Client>[] = [
   },
   {
     accessorKey: 'contact_name',
-    header: 'Contact',
+    header: 'איש קשר',
     cell: ({ row }) => row.original.contact_name || '—',
   },
   {
     accessorKey: 'phone',
-    header: 'Phone',
+    header: 'טלפון',
     cell: ({ row }) => row.original.phone || '—',
   },
   {
     accessorKey: 'email',
-    header: 'Email',
+    header: 'אימייל',
     cell: ({ row }) => row.original.email || '—',
   },
   {
     accessorKey: 'is_active',
-    header: 'Status',
+    header: 'סטטוס',
     cell: ({ row }) => (
       <StatusBadge status={row.original.is_active ? 'active' : 'inactive'} />
     ),
@@ -49,7 +49,7 @@ export function ClientsTable({ data }: { data: Client[] }) {
       columns={columns}
       data={data}
       searchKey="name"
-      searchPlaceholder="Search clients..."
+      searchPlaceholder="חיפוש לקוחות..."
     />
   )
 }

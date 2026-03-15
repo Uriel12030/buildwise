@@ -14,7 +14,7 @@ export default async function EditClientPage({ params }: { params: Promise<{ id:
 
   return (
     <div className="space-y-6">
-      <PageHeader title={`Edit ${client.name}`} />
+      <PageHeader title={`עריכת ${client.name}`} />
       <ClientForm client={client} />
     </div>
   )

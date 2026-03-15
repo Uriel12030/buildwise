@@ -65,11 +65,11 @@ export function ProjectForm({ project, clients, users, defaultClientId }: Projec
       }
       if (isEdit) {
         await updateProjectAction(project.id, cleaned)
-        toast.success('Project updated')
+        toast.success('הפרויקט עודכן')
         router.push(`/projects/${project.id}`)
       } else {
         const newProject = await createProjectAction(cleaned)
-        toast.success('Project created')
+        toast.success('הפרויקט נוצר')
         router.push(`/projects/${newProject.id}`)
       }
     } catch (error: any) {
@@ -89,26 +89,26 @@ export function ProjectForm({ project, clients, users, defaultClientId }: Projec
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{isEdit ? 'Edit Project' : 'New Project'}</CardTitle>
+        <CardTitle>{isEdit ? 'עריכת פרויקט' : 'פרויקט חדש'}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Project Name" required error={errors.name?.message}>
+            <FormFieldWrapper label="שם פרויקט" required error={errors.name?.message}>
               <Input {...register('name')} />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Project Code" required error={errors.project_code?.message}>
-              <Input {...register('project_code')} placeholder="e.g., PRJ-001" />
+            <FormFieldWrapper label="מספר פרויקט" required error={errors.project_code?.message}>
+              <Input {...register('project_code')} placeholder="לדוגמה: PRJ-001" />
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Client" required error={errors.client_id?.message}>
+            <FormFieldWrapper label="לקוח" required error={errors.client_id?.message}>
               <Select
                 value={watch('client_id')}
                 onValueChange={(v) => setValue('client_id', v!)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select client" />
+                  <SelectValue placeholder="בחר לקוח" />
                 </SelectTrigger>
                 <SelectContent>
                   {clients.map((c) => (
@@ -119,7 +119,7 @@ export function ProjectForm({ project, clients, users, defaultClientId }: Projec
                 </SelectContent>
               </Select>
             </FormFieldWrapper>
-            <FormFieldWrapper label="Status" error={errors.status?.message}>
+            <FormFieldWrapper label="סטטוס" error={errors.status?.message}>
               <Select
                 value={watch('status')}
                 onValueChange={(v) => v && setValue('status', v as any)}
@@ -128,36 +128,36 @@ export function ProjectForm({ project, clients, users, defaultClientId }: Projec
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="planning">Planning</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="on_hold">On Hold</SelectItem>
-                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="planning">תכנון</SelectItem>
+                  <SelectItem value="active">פעיל</SelectItem>
+                  <SelectItem value="on_hold">מושהה</SelectItem>
+                  <SelectItem value="completed">הושלם</SelectItem>
                 </SelectContent>
               </Select>
             </FormFieldWrapper>
           </div>
-          <FormFieldWrapper label="Location" error={errors.location?.message}>
+          <FormFieldWrapper label="מיקום" error={errors.location?.message}>
             <Input {...register('location')} />
           </FormFieldWrapper>
-          <FormFieldWrapper label="Description">
+          <FormFieldWrapper label="תיאור">
             <Textarea {...register('description')} rows={3} />
           </FormFieldWrapper>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Start Date" error={errors.start_date?.message}>
+            <FormFieldWrapper label="תאריך התחלה" error={errors.start_date?.message}>
               <Input {...register('start_date')} type="date" />
             </FormFieldWrapper>
-            <FormFieldWrapper label="End Date" error={errors.end_date?.message}>
+            <FormFieldWrapper label="תאריך סיום" error={errors.end_date?.message}>
               <Input {...register('end_date')} type="date" />
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Project Manager" error={errors.project_manager_user_id?.message}>
+            <FormFieldWrapper label="מנהל פרויקט" error={errors.project_manager_user_id?.message}>
               <Select
                 value={watch('project_manager_user_id') || ''}
                 onValueChange={(v) => setValue('project_manager_user_id', v || null)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select PM" />
+                  <SelectValue placeholder="בחר מנהל פרויקט" />
                 </SelectTrigger>
                 <SelectContent>
                   {managers.map((u) => (
@@ -168,13 +168,13 @@ export function ProjectForm({ project, clients, users, defaultClientId }: Projec
                 </SelectContent>
               </Select>
             </FormFieldWrapper>
-            <FormFieldWrapper label="Site Manager" error={errors.site_manager_user_id?.message}>
+            <FormFieldWrapper label="מנהל עבודה" error={errors.site_manager_user_id?.message}>
               <Select
                 value={watch('site_manager_user_id') || ''}
                 onValueChange={(v) => setValue('site_manager_user_id', v || null)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select site manager" />
+                  <SelectValue placeholder="בחר מנהל עבודה" />
                 </SelectTrigger>
                 <SelectContent>
                   {siteManagers.map((u) => (
@@ -188,10 +188,10 @@ export function ProjectForm({ project, clients, users, defaultClientId }: Projec
           </div>
           <div className="flex gap-3 pt-4">
             <Button type="submit" disabled={loading}>
-              {loading ? 'Saving...' : isEdit ? 'Update Project' : 'Create Project'}
+              {loading ? 'שומר...' : isEdit ? 'עדכן פרויקט' : 'צור פרויקט'}
             </Button>
             <Button type="button" variant="outline" onClick={() => router.back()}>
-              Cancel
+              ביטול
             </Button>
           </div>
         </form>

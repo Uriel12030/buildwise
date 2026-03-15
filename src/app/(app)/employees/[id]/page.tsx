@@ -31,7 +31,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
           <Button asChild variant="outline">
             <Link href={`/employees/${id}/edit`}>
               <Pencil className="mr-2 h-4 w-4" />
-              Edit
+              עריכה
             </Link>
           </Button>
         }
@@ -41,7 +41,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
         {/* Info */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Employee Details</CardTitle>
+            <CardTitle className="text-base">פרטי עובד</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex gap-2">
@@ -49,7 +49,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
               <StatusBadge status={employee.employee_type} />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Role</p>
+              <p className="text-xs text-gray-500">תפקיד</p>
               <p className="text-sm">{employee.role_title}</p>
             </div>
             {employee.phone && (
@@ -65,16 +65,16 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
               </div>
             )}
             <div>
-              <p className="text-xs text-gray-500">Hourly Rate</p>
+              <p className="text-xs text-gray-500">תעריף לשעה</p>
               <p className="text-sm font-medium">₪{employee.hourly_rate}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Hire Date</p>
+              <p className="text-xs text-gray-500">תחילת העסקה</p>
               <p className="text-sm">{dayjs(employee.hire_date).format('MMM D, YYYY')}</p>
             </div>
             {employee.notes && (
               <div>
-                <p className="text-xs text-gray-500">Notes</p>
+                <p className="text-xs text-gray-500">הערות</p>
                 <p className="text-sm whitespace-pre-wrap">{employee.notes}</p>
               </div>
             )}
@@ -84,14 +84,14 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
         {/* Projects */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Assigned Projects</CardTitle>
+            <CardTitle className="text-base">פרויקטים משויכים</CardTitle>
           </CardHeader>
           <CardContent>
             {projects.length === 0 ? (
               <EmptyState
                 icon={FolderKanban}
-                title="No projects"
-                description="Not assigned to any projects."
+                title="אין פרויקטים"
+                description="לא משויך לפרויקטים."
               />
             ) : (
               <div className="space-y-2">
@@ -106,7 +106,7 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
                       <p className="text-xs text-gray-500">{pe.project?.client?.name}</p>
                     </div>
                     {pe.assigned_to && (
-                      <span className="text-xs text-gray-400">Ended</span>
+                      <span className="text-xs text-gray-400">הסתיים</span>
                     )}
                   </Link>
                 ))}
@@ -118,14 +118,14 @@ export default async function EmployeeDetailPage({ params }: { params: Promise<{
         {/* Recent Logs */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Recent Log Entries</CardTitle>
+            <CardTitle className="text-base">השתתפות ביומנים</CardTitle>
           </CardHeader>
           <CardContent>
             {recentLogs.length === 0 ? (
               <EmptyState
                 icon={ClipboardList}
-                title="No entries"
-                description="No recent log participation."
+                title="אין רשומות"
+                description="אין השתתפות ביומנים."
               />
             ) : (
               <div className="space-y-2">

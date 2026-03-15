@@ -19,7 +19,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
 
   return (
     <div className="space-y-6">
-      <PageHeader title={`Edit ${project.name}`} />
+      <PageHeader title={`עריכת ${project.name}`} />
       <ProjectForm project={project} clients={clients} users={users} />
     </div>
   )

@@ -16,13 +16,13 @@ export default async function LogsPage({
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Daily Logs"
-        description={`${logs.length} logs`}
+        title="יומני עבודה"
+        description={`${logs.length} יומנים`}
         action={
           <Button asChild>
             <Link href="/logs/new">
               <Plus className="mr-2 h-4 w-4" />
-              New Log
+              יומן חדש
             </Link>
           </Button>
         }

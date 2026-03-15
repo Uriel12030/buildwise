@@ -29,12 +29,12 @@ export function AssignEmployeeButton({ projectId }: { projectId: string }) {
     setLoading(true)
     try {
       await assignEmployeeToProject(projectId, selectedId)
-      toast.success('Employee assigned')
+      toast.success('העובד שויך')
       setOpen(false)
       setSelectedId('')
       router.refresh()
     } catch (error: any) {
-      toast.error(error.message || 'Failed to assign')
+      toast.error(error.message || 'השיוך נכשל')
     } finally {
       setLoading(false)
     }
@@ -45,17 +45,17 @@ export function AssignEmployeeButton({ projectId }: { projectId: string }) {
       <DialogTrigger>
         <Button size="sm" variant="outline">
           <UserPlus className="mr-2 h-4 w-4" />
-          Assign
+          שיוך
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Assign Employee to Project</DialogTitle>
+          <DialogTitle>שיוך עובד לפרויקט</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <Select value={selectedId} onValueChange={(v) => setSelectedId(v || '')}>
             <SelectTrigger>
-              <SelectValue placeholder="Select employee" />
+              <SelectValue placeholder="בחר עובד" />
             </SelectTrigger>
             <SelectContent>
               {employees.map((e) => (
@@ -66,9 +66,9 @@ export function AssignEmployeeButton({ projectId }: { projectId: string }) {
             </SelectContent>
           </Select>
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setOpen(false)}>ביטול</Button>
             <Button onClick={handleAssign} disabled={!selectedId || loading}>
-              {loading ? 'Assigning...' : 'Assign'}
+              {loading ? 'משייך...' : 'שיוך'}
             </Button>
           </div>
         </div>

@@ -9,7 +9,7 @@ import Link from 'next/link'
 const columns: ColumnDef<Employee>[] = [
   {
     accessorKey: 'full_name',
-    header: 'Name',
+    header: 'שם',
     cell: ({ row }) => (
       <Link
         href={`/employees/${row.original.id}`}
@@ -21,26 +21,26 @@ const columns: ColumnDef<Employee>[] = [
   },
   {
     accessorKey: 'role_title',
-    header: 'Role',
+    header: 'תפקיד',
   },
   {
     accessorKey: 'employee_type',
-    header: 'Type',
+    header: 'סוג',
     cell: ({ row }) => <StatusBadge status={row.original.employee_type} />,
   },
   {
     accessorKey: 'phone',
-    header: 'Phone',
+    header: 'טלפון',
     cell: ({ row }) => row.original.phone || '—',
   },
   {
     accessorKey: 'hourly_rate',
-    header: 'Rate/hr',
+    header: 'תעריף/שעה',
     cell: ({ row }) => `₪${row.original.hourly_rate}`,
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: 'סטטוס',
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
   },
 ]
@@ -51,7 +51,7 @@ export function EmployeesTable({ data }: { data: Employee[] }) {
       columns={columns}
       data={data}
       searchKey="full_name"
-      searchPlaceholder="Search employees..."
+      searchPlaceholder="חיפוש עובדים..."
     />
   )
 }

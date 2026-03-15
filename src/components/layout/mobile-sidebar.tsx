@@ -19,12 +19,19 @@ import {
 import { useState } from 'react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Clients', href: '/clients', icon: Building2 },
-  { name: 'Projects', href: '/projects', icon: FolderKanban },
-  { name: 'Employees', href: '/employees', icon: Users },
-  { name: 'Daily Logs', href: '/logs', icon: ClipboardList },
+  { name: 'לוח בקרה', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'לקוחות', href: '/clients', icon: Building2 },
+  { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
+  { name: 'עובדים', href: '/employees', icon: Users },
+  { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
 ]
+
+const roleLabels: Record<string, string> = {
+  admin: 'מנהל מערכת',
+  office_manager: 'מנהלת משרד',
+  project_manager: 'מנהל פרויקט',
+  site_manager: 'מנהל עבודה',
+}
 
 export function MobileSidebar() {
   const pathname = usePathname()
@@ -38,7 +45,7 @@ export function MobileSidebar() {
           <Menu className="h-6 w-6" />
         </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="w-72 p-0">
+      <SheetContent side="right" className="w-72 p-0">
         <div className="flex h-16 items-center gap-2 border-b px-4">
           <HardHat className="h-8 w-8 text-blue-600" />
           <span className="text-xl font-bold text-gray-900">BuildWise</span>
@@ -69,8 +76,8 @@ export function MobileSidebar() {
           {user && (
             <div className="mb-2 px-2">
               <p className="text-sm font-medium text-gray-900">{user.full_name}</p>
-              <p className="text-xs text-gray-500 capitalize">
-                {user.role.replace('_', ' ')}
+              <p className="text-xs text-gray-500">
+                {roleLabels[user.role] || user.role}
               </p>
             </div>
           )}
@@ -79,8 +86,8 @@ export function MobileSidebar() {
             className="w-full justify-start text-gray-600"
             onClick={signOut}
           >
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign out
+            <LogOut className="ml-2 h-4 w-4" />
+            התנתקות
           </Button>
         </div>
       </SheetContent>

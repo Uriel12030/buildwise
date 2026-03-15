@@ -43,11 +43,11 @@ export default function LoginPage() {
             </div>
           </div>
           <CardTitle className="text-2xl">BuildWise</CardTitle>
-          <CardDescription>Sign in to manage your operations</CardDescription>
+          <CardDescription>התחבר לניהול הפעילות</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
-            <FormFieldWrapper label="Email" required>
+            <FormFieldWrapper label="אימייל" required>
               <Input
                 type="email"
                 value={email}
@@ -56,17 +56,17 @@ export default function LoginPage() {
                 required
               />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Password" required>
+            <FormFieldWrapper label="סיסמה" required>
               <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
+                placeholder="הזן סיסמה"
                 required
               />
             </FormFieldWrapper>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? 'מתחבר...' : 'התחבר'}
             </Button>
           </form>
         </CardContent>

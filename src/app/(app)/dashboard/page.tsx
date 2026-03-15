@@ -19,14 +19,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Dashboard" description="Overview of your operations" />
+      <PageHeader title="לוח בקרה" description="סקירת הפעילות התפעולית" />
 
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Active Projects" value={stats.activeProjects} icon={FolderKanban} />
-        <StatCard title="Active Employees" value={stats.totalEmployees} icon={Users} />
-        <StatCard title="Logs Today" value={stats.logsToday} icon={ClipboardList} />
-        <StatCard title="Pending Drafts" value={stats.pendingLogs} icon={AlertCircle} />
+        <StatCard title="פרויקטים פעילים" value={stats.activeProjects} icon={FolderKanban} />
+        <StatCard title="עובדים פעילים" value={stats.totalEmployees} icon={Users} />
+        <StatCard title="יומנים היום" value={stats.logsToday} icon={ClipboardList} />
+        <StatCard title="טיוטות ממתינות" value={stats.pendingLogs} icon={AlertCircle} />
       </div>
 
       {/* Charts */}
@@ -36,11 +36,11 @@ export default async function DashboardPage() {
         {/* Recent Logs */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Recent Daily Logs</CardTitle>
+            <CardTitle className="text-base">יומני עבודה אחרונים</CardTitle>
           </CardHeader>
           <CardContent>
             {recentLogs.length === 0 ? (
-              <p className="text-sm text-gray-500">No logs yet</p>
+              <p className="text-sm text-gray-500">אין יומנים עדיין</p>
             ) : (
               <div className="space-y-3">
                 {recentLogs.map((log) => (
@@ -54,7 +54,7 @@ export default async function DashboardPage() {
                         {(log.project as any)?.name}
                       </p>
                       <p className="text-xs text-gray-500">
-                        {dayjs(log.log_date).format('MMM D, YYYY')} · {(log.site_manager as any)?.full_name} · {(log.workers as any[])?.length || 0} workers
+                        {dayjs(log.log_date).format('MMM D, YYYY')} · {(log.site_manager as any)?.full_name} · {(log.workers as any[])?.length || 0} עובדים
                       </p>
                     </div>
                     <StatusBadge status={log.status} />
@@ -68,11 +68,11 @@ export default async function DashboardPage() {
         {/* Missing Logs */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Missing Logs Today</CardTitle>
+            <CardTitle className="text-base">יומנים חסרים היום</CardTitle>
           </CardHeader>
           <CardContent>
             {missingLogs.length === 0 ? (
-              <p className="text-sm text-gray-500">All active projects have logs for today</p>
+              <p className="text-sm text-gray-500">לכל הפרויקטים הפעילים יש יומן להיום</p>
             ) : (
               <div className="space-y-2">
                 {missingLogs.map((project) => (
@@ -88,7 +88,7 @@ export default async function DashboardPage() {
                       href={`/logs/new?projectId=${project.id}`}
                       className="text-xs font-medium text-blue-600 hover:underline"
                     >
-                      Create Log
+                      צור יומן
                     </Link>
                   </div>
                 ))}

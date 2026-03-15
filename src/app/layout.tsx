@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "BuildWise — Operations Management",
-  description: "Construction and operations management system",
+  title: "BuildWise — ניהול תפעול",
+  description: "מערכת ניהול תפעול לחברות בנייה והנדסה",
 }
 
 export default function RootLayout({
@@ -24,12 +24,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="he" dir="rtl">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Toaster position="top-right" richColors />
+        <Toaster position="top-left" richColors />
       </body>
     </html>
   )

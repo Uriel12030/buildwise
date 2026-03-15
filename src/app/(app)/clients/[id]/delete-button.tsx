@@ -17,10 +17,10 @@ export function ClientDeleteButton({ clientId, clientName }: { clientId: string;
     setLoading(true)
     try {
       await deleteClientAction(clientId)
-      toast.success('Client deleted')
+      toast.success('הלקוח נמחק')
       router.push('/clients')
     } catch (error: any) {
-      toast.error(error.message || 'Failed to delete')
+      toast.error(error.message || 'המחיקה נכשלה')
     } finally {
       setLoading(false)
       setOpen(false)
@@ -31,14 +31,14 @@ export function ClientDeleteButton({ clientId, clientName }: { clientId: string;
     <>
       <Button variant="outline" className="text-red-600 hover:text-red-700" onClick={() => setOpen(true)}>
         <Trash2 className="mr-2 h-4 w-4" />
-        Delete
+        מחיקה
       </Button>
       <ConfirmDialog
         open={open}
         onOpenChange={setOpen}
-        title="Delete Client"
-        description={`Are you sure you want to delete "${clientName}"? This action cannot be undone.`}
-        confirmLabel="Delete"
+        title="מחיקת לקוח"
+        description={`האם אתה בטוח שברצונך למחוק את "${clientName}"? פעולה זו אינה הפיכה.`}
+        confirmLabel="מחיקה"
         onConfirm={handleDelete}
         loading={loading}
       />

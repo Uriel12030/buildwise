@@ -12,18 +12,25 @@ import {
   ClipboardList,
   LogOut,
   HardHat,
-  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Clients', href: '/clients', icon: Building2 },
-  { name: 'Projects', href: '/projects', icon: FolderKanban },
-  { name: 'Employees', href: '/employees', icon: Users },
-  { name: 'Daily Logs', href: '/logs', icon: ClipboardList },
+  { name: 'לוח בקרה', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'לקוחות', href: '/clients', icon: Building2 },
+  { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
+  { name: 'עובדים', href: '/employees', icon: Users },
+  { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
 ]
+
+const roleLabels: Record<string, string> = {
+  admin: 'מנהל מערכת',
+  office_manager: 'מנהלת משרד',
+  project_manager: 'מנהל פרויקט',
+  site_manager: 'מנהל עבודה',
+}
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -33,7 +40,7 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        'fixed inset-y-0 left-0 z-50 flex flex-col border-r bg-white transition-all duration-300',
+        'fixed inset-y-0 right-0 z-50 flex flex-col border-l bg-white transition-all duration-300',
         collapsed ? 'w-16' : 'w-64'
       )}
     >
@@ -46,10 +53,10 @@ export function Sidebar() {
         <Button
           variant="ghost"
           size="icon"
-          className={cn('ml-auto h-8 w-8', collapsed && 'mx-auto')}
+          className={cn('mr-auto h-8 w-8', collapsed && 'mx-auto')}
           onClick={() => setCollapsed(!collapsed)}
         >
-          <ChevronLeft
+          <ChevronRight
             className={cn(
               'h-4 w-4 transition-transform',
               collapsed && 'rotate-180'
@@ -90,8 +97,8 @@ export function Sidebar() {
             <p className="text-sm font-medium text-gray-900 truncate">
               {user.full_name}
             </p>
-            <p className="text-xs text-gray-500 capitalize">
-              {user.role.replace('_', ' ')}
+            <p className="text-xs text-gray-500">
+              {roleLabels[user.role] || user.role}
             </p>
           </div>
         )}
@@ -102,7 +109,7 @@ export function Sidebar() {
           onClick={signOut}
         >
           <LogOut className="h-4 w-4 shrink-0" />
-          {!collapsed && <span className="ml-2">Sign out</span>}
+          {!collapsed && <span className="mr-2">התנתקות</span>}
         </Button>
       </div>
     </aside>

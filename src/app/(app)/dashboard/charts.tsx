@@ -30,7 +30,7 @@ export function DashboardCharts({ logsByWeek, projectsByStatus }: DashboardChart
     <div className="grid gap-6 lg:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Logs This Week</CardTitle>
+          <CardTitle className="text-base">יומנים השבוע</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={200}>
@@ -46,7 +46,7 @@ export function DashboardCharts({ logsByWeek, projectsByStatus }: DashboardChart
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Projects by Status</CardTitle>
+          <CardTitle className="text-base">פרויקטים לפי סטטוס</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center">

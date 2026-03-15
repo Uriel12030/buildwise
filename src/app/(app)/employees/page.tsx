@@ -11,13 +11,13 @@ export default async function EmployeesPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Employees"
-        description={`${employees.length} total employees`}
+        title="עובדים"
+        description={`${employees.length} עובדים`}
         action={
           <Button asChild>
             <Link href="/employees/new">
               <Plus className="mr-2 h-4 w-4" />
-              Add Employee
+              הוסף עובד
             </Link>
           </Button>
         }

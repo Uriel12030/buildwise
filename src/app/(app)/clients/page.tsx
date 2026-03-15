@@ -11,13 +11,13 @@ export default async function ClientsPage() {
   return (
     <div className="space-y-6">
       <PageHeader
-        title="Clients"
-        description={`${clients.length} total clients`}
+        title="לקוחות"
+        description={`${clients.length} לקוחות`}
         action={
           <Button asChild>
             <Link href="/clients/new">
               <Plus className="mr-2 h-4 w-4" />
-              Add Client
+              הוסף לקוח
             </Link>
           </Button>
         }

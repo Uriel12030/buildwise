@@ -13,7 +13,7 @@ export default async function NewProjectPage({
 
   return (
     <div className="space-y-6">
-      <PageHeader title="New Project" />
+      <PageHeader title="פרויקט חדש" />
       <ProjectForm
         clients={clients}
         users={users}

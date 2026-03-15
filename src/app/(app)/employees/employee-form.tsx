@@ -59,11 +59,11 @@ export function EmployeeForm({ employee }: EmployeeFormProps) {
     try {
       if (isEdit) {
         await updateEmployeeAction(employee.id, data)
-        toast.success('Employee updated')
+        toast.success('העובד עודכן')
         router.push(`/employees/${employee.id}`)
       } else {
         const newEmployee = await createEmployeeAction(data)
-        toast.success('Employee created')
+        toast.success('העובד נוצר')
         router.push(`/employees/${newEmployee.id}`)
       }
     } catch (error: any) {
@@ -76,31 +76,31 @@ export function EmployeeForm({ employee }: EmployeeFormProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{isEdit ? 'Edit Employee' : 'New Employee'}</CardTitle>
+        <CardTitle>{isEdit ? 'עריכת עובד' : 'עובד חדש'}</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Full Name" required error={errors.full_name?.message}>
+            <FormFieldWrapper label="שם מלא" required error={errors.full_name?.message}>
               <Input {...register('full_name')} />
             </FormFieldWrapper>
-            <FormFieldWrapper label="National ID" error={errors.national_id?.message}>
+            <FormFieldWrapper label="תעודת זהות" error={errors.national_id?.message}>
               <Input {...register('national_id')} />
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Phone" error={errors.phone?.message}>
+            <FormFieldWrapper label="טלפון" error={errors.phone?.message}>
               <Input {...register('phone')} />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Email" error={errors.email?.message}>
+            <FormFieldWrapper label="אימייל" error={errors.email?.message}>
               <Input {...register('email')} type="email" />
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Role Title" required error={errors.role_title?.message}>
-              <Input {...register('role_title')} placeholder="e.g., Operator, Electrician" />
+            <FormFieldWrapper label="תפקיד" required error={errors.role_title?.message}>
+              <Input {...register('role_title')} placeholder="לדוגמה: מפעיל, חשמלאי" />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Employee Type" required error={errors.employee_type?.message}>
+            <FormFieldWrapper label="סוג עובד" required error={errors.employee_type?.message}>
               <Select
                 value={watch('employee_type')}
                 onValueChange={(v) => v && setValue('employee_type', v as any)}
@@ -109,25 +109,25 @@ export function EmployeeForm({ employee }: EmployeeFormProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="field">Field</SelectItem>
-                  <SelectItem value="office">Office</SelectItem>
-                  <SelectItem value="freelancer">Freelancer</SelectItem>
+                  <SelectItem value="field">שטח</SelectItem>
+                  <SelectItem value="office">משרד</SelectItem>
+                  <SelectItem value="freelancer">פרילנסר</SelectItem>
                 </SelectContent>
               </Select>
             </FormFieldWrapper>
           </div>
           <div className="grid gap-4 sm:grid-cols-3">
-            <FormFieldWrapper label="Hourly Rate (₪)" required error={errors.hourly_rate?.message}>
+            <FormFieldWrapper label="תעריף לשעה (₪)" required error={errors.hourly_rate?.message}>
               <Input {...register('hourly_rate', { valueAsNumber: true })} type="number" step="0.01" min="0" />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Hire Date" required error={errors.hire_date?.message}>
+            <FormFieldWrapper label="תחילת העסקה" required error={errors.hire_date?.message}>
               <Input {...register('hire_date')} type="date" />
             </FormFieldWrapper>
-            <FormFieldWrapper label="End Date" error={errors.end_date?.message}>
+            <FormFieldWrapper label="סיום העסקה" error={errors.end_date?.message}>
               <Input {...register('end_date')} type="date" />
             </FormFieldWrapper>
           </div>
-          <FormFieldWrapper label="Status" error={errors.status?.message}>
+          <FormFieldWrapper label="סטטוס" error={errors.status?.message}>
             <Select
               value={watch('status')}
               onValueChange={(v) => v && setValue('status', v as any)}
@@ -136,20 +136,20 @@ export function EmployeeForm({ employee }: EmployeeFormProps) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="active">פעיל</SelectItem>
+                <SelectItem value="inactive">לא פעיל</SelectItem>
               </SelectContent>
             </Select>
           </FormFieldWrapper>
-          <FormFieldWrapper label="Notes">
+          <FormFieldWrapper label="הערות">
             <Textarea {...register('notes')} rows={3} />
           </FormFieldWrapper>
           <div className="flex gap-3 pt-4">
             <Button type="submit" disabled={loading}>
-              {loading ? 'Saving...' : isEdit ? 'Update Employee' : 'Create Employee'}
+              {loading ? 'שומר...' : isEdit ? 'עדכן עובד' : 'צור עובד'}
             </Button>
             <Button type="button" variant="outline" onClick={() => router.back()}>
-              Cancel
+              ביטול
             </Button>
           </div>
         </form>

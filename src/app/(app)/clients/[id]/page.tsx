@@ -29,7 +29,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             <Button asChild variant="outline">
               <Link href={`/clients/${id}/edit`}>
                 <Pencil className="mr-2 h-4 w-4" />
-                Edit
+                עריכה
               </Link>
             </Button>
             <ClientDeleteButton clientId={id} clientName={client.name} />
@@ -41,7 +41,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         {/* Info */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle className="text-base">Client Information</CardTitle>
+            <CardTitle className="text-base">פרטי לקוח</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <StatusBadge status={client.is_active ? 'active' : 'inactive'} />
@@ -49,14 +49,14 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
               <div className="flex items-start gap-3">
                 <Building2 className="h-4 w-4 mt-0.5 text-gray-400" />
                 <div>
-                  <p className="text-xs text-gray-500">Company Number</p>
+                  <p className="text-xs text-gray-500">ח.פ</p>
                   <p className="text-sm">{client.company_number}</p>
                 </div>
               </div>
             )}
             {client.contact_name && (
               <div>
-                <p className="text-xs text-gray-500">Contact</p>
+                <p className="text-xs text-gray-500">איש קשר</p>
                 <p className="text-sm">{client.contact_name}</p>
               </div>
             )}
@@ -80,12 +80,12 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
             )}
             {client.notes && (
               <div>
-                <p className="text-xs text-gray-500">Notes</p>
+                <p className="text-xs text-gray-500">הערות</p>
                 <p className="text-sm whitespace-pre-wrap">{client.notes}</p>
               </div>
             )}
             <div className="pt-2 border-t text-xs text-gray-400">
-              Created {dayjs(client.created_at).format('MMM D, YYYY')}
+              נוצר {dayjs(client.created_at).format('MMM D, YYYY')}
             </div>
           </CardContent>
         </Card>
@@ -93,17 +93,17 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
         {/* Projects */}
         <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Projects</CardTitle>
+            <CardTitle className="text-base">פרויקטים</CardTitle>
             <Button asChild size="sm">
-              <Link href={`/projects/new?clientId=${id}`}>Add Project</Link>
+              <Link href={`/projects/new?clientId=${id}`}>הוסף פרויקט</Link>
             </Button>
           </CardHeader>
           <CardContent>
             {projects.length === 0 ? (
               <EmptyState
                 icon={FolderKanban}
-                title="No projects"
-                description="Create a project for this client."
+                title="אין פרויקטים"
+                description="צור פרויקט ללקוח זה."
               />
             ) : (
               <div className="space-y-3">
