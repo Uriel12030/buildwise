@@ -114,30 +114,9 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className="border-b border-border/40 last:border-0 hover:bg-muted/30 transition-colors h-12"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="text-[13px] py-3">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-32 text-center text-muted-foreground">
-                  לא נמצאו תוצאות.
-                </TableCell>
-              </TableRow>
-            )}
-
-            {/* Quick Add Row */}
+            {/* Quick Add Row - Top */}
             {quickAdd && (
-              <TableRow className="border-t border-border/40 bg-muted/10 hover:bg-muted/20 transition-colors">
+              <TableRow className="border-b border-border/40 bg-muted/10 hover:bg-muted/20 transition-colors">
                 <TableCell colSpan={columns.length} className="py-0 px-0">
                   <div className="flex items-center h-11">
                     <div className="flex items-center gap-2 px-3 text-muted-foreground/60">
@@ -169,6 +148,27 @@ export function DataTable<TData, TValue>({
                 </TableCell>
               </TableRow>
             )}
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  className="border-b border-border/40 last:border-0 hover:bg-muted/30 transition-colors h-12"
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id} className="text-[13px] py-3">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-32 text-center text-muted-foreground">
+                  לא נמצאו תוצאות.
+                </TableCell>
+              </TableRow>
+            )}
+
           </TableBody>
         </Table>
       </div>
