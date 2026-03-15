@@ -19,11 +19,13 @@ import {
   Wrench,
   Package,
   Truck,
+  Sun,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 
 const mainNav = [
+  { name: 'בוקר טוב', href: '/good-morning', icon: Sun },
   { name: 'לוח בקרה', href: '/dashboard', icon: LayoutDashboard },
   { name: 'היומנים שלי', href: '/my-logs', icon: FileText },
 ]
