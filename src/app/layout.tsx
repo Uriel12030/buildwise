@@ -1,16 +1,18 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter, Noto_Sans_Hebrew } from "next/font/google"
 import { Toaster } from "sonner"
 import "./globals.css"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
+  display: "swap",
 })
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoHebrew = Noto_Sans_Hebrew({
+  variable: "--font-hebrew",
+  subsets: ["hebrew"],
+  display: "swap",
 })
 
 export const metadata: Metadata = {
@@ -26,7 +28,8 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${notoHebrew.variable} antialiased`}
+        style={{ fontFamily: "var(--font-hebrew), var(--font-sans), sans-serif" }}
       >
         {children}
         <Toaster position="top-left" richColors />
