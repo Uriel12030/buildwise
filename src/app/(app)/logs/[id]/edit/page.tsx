@@ -21,7 +21,7 @@ export default async function EditLogPage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Edit Daily Log" />
+      <PageHeader title="עריכת יומן עבודה" />
       <LogForm
         log={log}
         projects={projects.map((p) => ({ id: p.id, name: p.name, project_code: p.project_code }))}

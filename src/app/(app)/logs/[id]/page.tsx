@@ -21,12 +21,12 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`Daily Log — ${dayjs(log.log_date).format('MMM D, YYYY')}`}
+        title={`יומן עבודה — ${dayjs(log.log_date).format('MMM D, YYYY')}`}
         action={
           <Button asChild variant="outline" size="sm">
             <Link href={`/logs/${id}/edit`}>
               <Pencil className="mr-2 h-4 w-4" />
-              Edit
+              עריכה
             </Link>
           </Button>
         }
@@ -52,7 +52,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-gray-500">Project</p>
+              <p className="text-xs text-gray-500">פרויקט</p>
               <Link
                 href={`/projects/${log.project?.id}`}
                 className="text-sm font-medium text-blue-600 hover:underline"
@@ -61,7 +61,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
               </Link>
               {log.project?.client && (
                 <p className="text-xs text-gray-500">
-                  Client:{' '}
+                  לקוח:{' '}
                   <Link
                     href={`/clients/${log.project.client.id}`}
                     className="text-blue-600 hover:underline"
@@ -73,7 +73,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
             </div>
             {log.site_manager && (
               <div className="text-right">
-                <p className="text-xs text-gray-500">Site Manager</p>
+                <p className="text-xs text-gray-500">מנהל עבודה</p>
                 <p className="text-sm font-medium">{log.site_manager.full_name}</p>
               </div>
             )}
@@ -85,7 +85,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Work Summary</CardTitle>
+            <CardTitle className="text-base">סיכום עבודה</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm whitespace-pre-wrap">{log.work_summary}</p>
@@ -96,7 +96,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
           {log.issues && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base text-orange-600">Issues</CardTitle>
+                <CardTitle className="text-base text-orange-600">בעיות</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm whitespace-pre-wrap">{log.issues}</p>
@@ -106,7 +106,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
           {log.notes && (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Notes</CardTitle>
+                <CardTitle className="text-base">הערות</CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-sm whitespace-pre-wrap">{log.notes}</p>
@@ -120,23 +120,23 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
       <Card>
         <CardHeader>
           <CardTitle className="text-base">
-            Workers ({log.workers?.length || 0})
+            עובדים ({log.workers?.length || 0})
           </CardTitle>
         </CardHeader>
         <CardContent>
           {!log.workers || log.workers.length === 0 ? (
-            <p className="text-sm text-gray-500">No workers recorded</p>
+            <p className="text-sm text-gray-500">לא נרשמו עובדים</p>
           ) : (
             <div className="rounded-lg border">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b bg-gray-50">
-                    <th className="px-4 py-2 text-left font-medium text-gray-500">Employee</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-500">Role</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">Hours</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">OT</th>
-                    <th className="px-4 py-2 text-right font-medium text-gray-500">Rate</th>
-                    <th className="px-4 py-2 text-left font-medium text-gray-500">Notes</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-500">עובד</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-500">תפקיד</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">שעות</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">נוספות</th>
+                    <th className="px-4 py-2 text-right font-medium text-gray-500">תעריף</th>
+                    <th className="px-4 py-2 text-left font-medium text-gray-500">הערות</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -157,7 +157,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
                 </tbody>
                 <tfoot>
                   <tr className="bg-gray-50 font-medium">
-                    <td className="px-4 py-2" colSpan={2}>Total</td>
+                    <td className="px-4 py-2" colSpan={2}>סה"כ</td>
                     <td className="px-4 py-2 text-right">
                       {log.workers.reduce((sum: number, w: any) => sum + (w.hours_worked || 0), 0)}
                     </td>
@@ -177,7 +177,7 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
       {log.files && log.files.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Files ({log.files.length})</CardTitle>
+            <CardTitle className="text-base">קבצים ({log.files.length})</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -203,8 +203,8 @@ export default async function LogDetailPage({ params }: { params: Promise<{ id: 
 
       {/* Timestamps */}
       <div className="text-xs text-gray-400 space-x-4">
-        <span>Created: {dayjs(log.created_at).format('MMM D, YYYY HH:mm')}</span>
-        <span>Updated: {dayjs(log.updated_at).format('MMM D, YYYY HH:mm')}</span>
+        <span>נוצר: {dayjs(log.created_at).format('MMM D, YYYY HH:mm')}</span>
+        <span>עודכן: {dayjs(log.updated_at).format('MMM D, YYYY HH:mm')}</span>
       </div>
     </div>
   )

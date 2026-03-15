@@ -27,8 +27,8 @@ export function ConfirmDialog({
   onOpenChange,
   title,
   description,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel = 'אישור',
+  cancelLabel = 'ביטול',
   variant = 'destructive',
   onConfirm,
   loading,
@@ -49,7 +49,7 @@ export function ConfirmDialog({
             onClick={onConfirm}
             disabled={loading}
           >
-            {loading ? 'Processing...' : confirmLabel}
+            {loading ? 'מעבד...' : confirmLabel}
           </Button>
         </DialogFooter>
       </DialogContent>

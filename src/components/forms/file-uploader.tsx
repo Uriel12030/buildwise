@@ -72,9 +72,9 @@ export function FileUploader({
       >
         <Upload className="h-8 w-8 text-gray-400 mb-2" />
         <p className="text-sm text-gray-600">
-          Drop files here or <span className="text-blue-600 font-medium">browse</span>
+          גרור קבצים לכאן או <span className="text-blue-600 font-medium">עיין</span>
         </p>
-        <p className="text-xs text-gray-400 mt-1">Images, PDFs, documents</p>
+        <p className="text-xs text-gray-400 mt-1">תמונות, PDF, מסמכים</p>
       </div>
 
       {/* Existing files */}

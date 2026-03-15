@@ -79,13 +79,13 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
           files.forEach((f) => formData.append('files', f))
           await uploadLogFiles(log.id, formData)
         }
-        toast.success('Log updated')
+        toast.success('היומן עודכן')
         router.push(`/logs/${log.id}`)
       } else {
         const formData = new FormData()
         files.forEach((f) => formData.append('files', f))
         const newLog = await createLogAction(data, formData)
-        toast.success('Log created')
+        toast.success('היומן נוצר')
         router.push(`/logs/${newLog.id}`)
       }
     } catch (error: any) {
@@ -99,17 +99,17 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>{isEdit ? 'Edit Daily Log' : 'New Daily Log'}</CardTitle>
+          <CardTitle>{isEdit ? 'עריכת יומן עבודה' : 'יומן עבודה חדש'}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-3">
-            <FormFieldWrapper label="Project" required error={errors.project_id?.message}>
+            <FormFieldWrapper label="פרויקט" required error={errors.project_id?.message}>
               <Select
                 value={watch('project_id')}
                 onValueChange={(v) => setValue('project_id', v!)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Select project" />
+                  <SelectValue placeholder="בחר פרויקט" />
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((p) => (
@@ -120,28 +120,28 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
                 </SelectContent>
               </Select>
             </FormFieldWrapper>
-            <FormFieldWrapper label="Date" required error={errors.log_date?.message}>
+            <FormFieldWrapper label="תאריך" required error={errors.log_date?.message}>
               <Input {...register('log_date')} type="date" />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Weather" error={errors.weather?.message}>
-              <Input {...register('weather')} placeholder="e.g., Sunny, Rainy" />
+            <FormFieldWrapper label="מזג אוויר" error={errors.weather?.message}>
+              <Input {...register('weather')} placeholder="לדוגמה: שמשי, גשום" />
             </FormFieldWrapper>
           </div>
 
-          <FormFieldWrapper label="Work Summary" required error={errors.work_summary?.message}>
-            <Textarea {...register('work_summary')} rows={3} placeholder="Describe the work done today..." />
+          <FormFieldWrapper label="סיכום עבודה" required error={errors.work_summary?.message}>
+            <Textarea {...register('work_summary')} rows={3} placeholder="תאר את העבודה שבוצעה היום..." />
           </FormFieldWrapper>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <FormFieldWrapper label="Issues" error={errors.issues?.message}>
-              <Textarea {...register('issues')} rows={2} placeholder="Any issues or blockers..." />
+            <FormFieldWrapper label="בעיות" error={errors.issues?.message}>
+              <Textarea {...register('issues')} rows={2} placeholder="בעיות או חסימות..." />
             </FormFieldWrapper>
-            <FormFieldWrapper label="Notes" error={errors.notes?.message}>
-              <Textarea {...register('notes')} rows={2} placeholder="Additional notes..." />
+            <FormFieldWrapper label="הערות" error={errors.notes?.message}>
+              <Textarea {...register('notes')} rows={2} placeholder="הערות נוספות..." />
             </FormFieldWrapper>
           </div>
 
-          <FormFieldWrapper label="Status" error={errors.status?.message}>
+          <FormFieldWrapper label="סטטוס" error={errors.status?.message}>
             <Select
               value={watch('status')}
               onValueChange={(v) => v && setValue('status', v as any)}
@@ -150,9 +150,9 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="draft">Draft</SelectItem>
-                <SelectItem value="submitted">Submitted</SelectItem>
-                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="draft">טיוטה</SelectItem>
+                <SelectItem value="submitted">הוגש</SelectItem>
+                <SelectItem value="approved">אושר</SelectItem>
               </SelectContent>
             </Select>
           </FormFieldWrapper>
@@ -162,7 +162,7 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
       {/* Workers */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Workers & Hours</CardTitle>
+          <CardTitle className="text-base">עובדים ושעות</CardTitle>
           <Button
             type="button"
             size="sm"
@@ -172,25 +172,25 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
             }
           >
             <Plus className="mr-2 h-4 w-4" />
-            Add Worker
+            הוסף עובד
           </Button>
         </CardHeader>
         <CardContent>
           {fields.length === 0 ? (
             <p className="text-sm text-gray-500 text-center py-4">
-              No workers added yet. Click &quot;Add Worker&quot; to begin.
+              טרם נוספו עובדים. לחץ &quot;הוסף עובד&quot; להתחיל.
             </p>
           ) : (
             <div className="space-y-3">
               {fields.map((field, index) => (
                 <div key={field.id} className="flex gap-3 items-end rounded-lg border p-3">
-                  <FormFieldWrapper label="Employee" required className="flex-1">
+                  <FormFieldWrapper label="עובד" required className="flex-1">
                     <Select
                       value={watch(`workers.${index}.employee_id`)}
                       onValueChange={(v) => setValue(`workers.${index}.employee_id`, v!)}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select" />
+                        <SelectValue placeholder="בחר" />
                       </SelectTrigger>
                       <SelectContent>
                         {employees.map((e) => (
@@ -201,7 +201,7 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
                       </SelectContent>
                     </Select>
                   </FormFieldWrapper>
-                  <FormFieldWrapper label="Hours" className="w-24">
+                  <FormFieldWrapper label="שעות" className="w-24">
                     <Input
                       {...register(`workers.${index}.hours_worked`, { valueAsNumber: true })}
                       type="number"
@@ -210,7 +210,7 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
                       max="24"
                     />
                   </FormFieldWrapper>
-                  <FormFieldWrapper label="OT" className="w-24">
+                  <FormFieldWrapper label="נוספות" className="w-24">
                     <Input
                       {...register(`workers.${index}.overtime_hours`, { valueAsNumber: true })}
                       type="number"
@@ -219,8 +219,8 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
                       max="24"
                     />
                   </FormFieldWrapper>
-                  <FormFieldWrapper label="Notes" className="flex-1">
-                    <Input {...register(`workers.${index}.notes`)} placeholder="Optional" />
+                  <FormFieldWrapper label="הערות" className="flex-1">
+                    <Input {...register(`workers.${index}.notes`)} placeholder="אופציונלי" />
                   </FormFieldWrapper>
                   <Button
                     type="button"
@@ -241,7 +241,7 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
       {/* Files */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Photos & Files</CardTitle>
+          <CardTitle className="text-base">תמונות וקבצים</CardTitle>
         </CardHeader>
         <CardContent>
           <FileUploader
@@ -254,10 +254,10 @@ export function LogForm({ log, projects, employees, defaultProjectId }: LogFormP
       {/* Submit */}
       <div className="flex gap-3">
         <Button type="submit" disabled={loading}>
-          {loading ? 'Saving...' : isEdit ? 'Update Log' : 'Create Log'}
+          {loading ? 'שומר...' : isEdit ? 'עדכן יומן' : 'צור יומן'}
         </Button>
         <Button type="button" variant="outline" onClick={() => router.back()}>
-          Cancel
+          ביטול
         </Button>
       </div>
     </form>

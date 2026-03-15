@@ -16,7 +16,7 @@ export default async function NewLogPage({
 
   return (
     <div className="space-y-6">
-      <PageHeader title="New Daily Log" />
+      <PageHeader title="יומן עבודה חדש" />
       <LogForm
         projects={projects.map((p) => ({ id: p.id, name: p.name, project_code: p.project_code }))}
         employees={employees.map((e) => ({ id: e.id, full_name: e.full_name, role_title: e.role_title }))}

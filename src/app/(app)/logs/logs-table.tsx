@@ -31,7 +31,7 @@ const columns: ColumnDef<LogRow>[] = [
   },
   {
     accessorKey: 'project.name',
-    header: 'Project',
+    header: 'פרויקט',
     cell: ({ row }) => (
       <div>
         <p className="text-sm">{row.original.project?.name}</p>
@@ -41,22 +41,22 @@ const columns: ColumnDef<LogRow>[] = [
   },
   {
     accessorKey: 'site_manager.full_name',
-    header: 'Site Manager',
+    header: 'מנהל עבודה',
     cell: ({ row }) => row.original.site_manager?.full_name || '—',
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: 'סטטוס',
     cell: ({ row }) => <StatusBadge status={row.original.status} />,
   },
   {
     id: 'workers_count',
-    header: 'Workers',
+    header: 'עובדים',
     cell: ({ row }) => row.original.workers?.length || 0,
   },
   {
     accessorKey: 'work_summary',
-    header: 'Summary',
+    header: 'סיכום',
     cell: ({ row }) => (
       <p className="text-sm text-gray-600 truncate max-w-xs">
         {row.original.work_summary}
@@ -71,7 +71,7 @@ export function LogsTable({ data }: { data: LogRow[] }) {
       columns={columns}
       data={data}
       searchKey="project.name"
-      searchPlaceholder="Search logs..."
+      searchPlaceholder="חיפוש יומנים..."
     />
   )
 }

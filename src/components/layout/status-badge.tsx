@@ -20,9 +20,23 @@ interface StatusBadgeProps {
   className?: string
 }
 
+const statusLabels: Record<string, string> = {
+  active: 'פעיל',
+  planning: 'תכנון',
+  draft: 'טיוטה',
+  on_hold: 'מושהה',
+  completed: 'הושלם',
+  inactive: 'לא פעיל',
+  submitted: 'הוגש',
+  approved: 'אושר',
+  field: 'שטח',
+  office: 'משרד',
+  freelancer: 'פרילנסר',
+}
+
 export function StatusBadge({ status, className }: StatusBadgeProps) {
   const colors = statusColors[status] || 'bg-gray-50 text-gray-600 border-gray-200'
-  const label = status.replace(/_/g, ' ')
+  const label = statusLabels[status] || status.replace(/_/g, ' ')
 
   return (
     <Badge

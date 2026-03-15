@@ -97,7 +97,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center text-gray-500">
-                  No results found.
+                  לא נמצאו תוצאות.
                 </TableCell>
               </TableRow>
             )}
@@ -109,12 +109,12 @@ export function DataTable<TData, TValue>({
       {table.getPageCount() > 1 && (
         <div className="flex items-center justify-between">
           <p className="text-sm text-gray-500">
-            Showing {table.getState().pagination.pageIndex * pageSize + 1} to{' '}
+            מציג {table.getState().pagination.pageIndex * pageSize + 1} עד{' '}
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * pageSize,
               table.getFilteredRowModel().rows.length
             )}{' '}
-            of {table.getFilteredRowModel().rows.length}
+            מתוך {table.getFilteredRowModel().rows.length}
           </p>
           <div className="flex gap-2">
             <Button
