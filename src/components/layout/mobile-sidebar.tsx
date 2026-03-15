@@ -16,6 +16,9 @@ import {
   LogOut,
   HardHat,
   FileText,
+  Wrench,
+  Package,
+  Truck,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -29,6 +32,12 @@ const managementNav = [
   { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
   { name: 'עובדים', href: '/employees', icon: Users },
   { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
+]
+
+const operationsNav = [
+  { name: 'ציוד וכלים', href: '/equipment', icon: Wrench },
+  { name: 'מלאי', href: '/inventory', icon: Package },
+  { name: 'יומני משאית', href: '/transport', icon: Truck },
 ]
 
 const roleLabels: Record<string, string> = {
@@ -103,6 +112,7 @@ export function MobileSidebar() {
         <nav className="flex-1 overflow-y-auto px-2 py-2">
           <MobileNavSection label="ראשי" items={mainNav} pathname={pathname} onNavigate={() => setOpen(false)} />
           <MobileNavSection label="ניהול" items={managementNav} pathname={pathname} onNavigate={() => setOpen(false)} />
+          <MobileNavSection label="תפעול" items={operationsNav} pathname={pathname} onNavigate={() => setOpen(false)} />
         </nav>
 
         {/* User */}

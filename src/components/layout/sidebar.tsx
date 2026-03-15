@@ -16,6 +16,9 @@ import {
   FileText,
   Settings,
   Search,
+  Wrench,
+  Package,
+  Truck,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
@@ -30,6 +33,12 @@ const managementNav = [
   { name: 'פרויקטים', href: '/projects', icon: FolderKanban },
   { name: 'עובדים', href: '/employees', icon: Users },
   { name: 'יומני עבודה', href: '/logs', icon: ClipboardList },
+]
+
+const operationsNav = [
+  { name: 'ציוד וכלים', href: '/equipment', icon: Wrench },
+  { name: 'מלאי', href: '/inventory', icon: Package },
+  { name: 'יומני משאית', href: '/transport', icon: Truck },
 ]
 
 const roleLabels: Record<string, string> = {
@@ -116,6 +125,7 @@ export function Sidebar() {
       <nav className="flex-1 overflow-y-auto px-2 py-2">
         <NavSection label="ראשי" items={mainNav} pathname={pathname} collapsed={collapsed} />
         <NavSection label="ניהול" items={managementNav} pathname={pathname} collapsed={collapsed} />
+        <NavSection label="תפעול" items={operationsNav} pathname={pathname} collapsed={collapsed} />
       </nav>
 
       {/* User */}

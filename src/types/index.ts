@@ -163,6 +163,71 @@ export interface ActivityLog {
   user?: User
 }
 
+// Equipment types
+export type EquipmentCategory = 'heavy_equipment' | 'vehicle' | 'truck' | 'trailer' | 'tool' | 'other'
+export type EquipmentStatus = 'active' | 'inactive' | 'maintenance' | 'damaged' | 'archived'
+
+export interface Equipment {
+  id: string
+  name: string
+  equipment_code: string | null
+  category: EquipmentCategory
+  type_name: string | null
+  status: EquipmentStatus
+  chassis_number: string | null
+  license_plate: string | null
+  purchase_cost: number | null
+  operating_cost: number | null
+  hourly_cost: number | null
+  insurance_company: string | null
+  insurance_expiry: string | null
+  test_expiry: string | null
+  notes: string | null
+  assigned_employee_id: string | null
+  assigned_employee?: Employee
+  monday_item_id: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface InventoryItem {
+  id: string
+  name: string
+  item_name: string | null
+  supplier_name: string | null
+  quantity: number
+  status: string
+  priority: string | null
+  received_date: string | null
+  expiration_date: string | null
+  notes: string | null
+  monday_item_id: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface TransportLog {
+  id: string
+  log_date: string
+  transport_type: string
+  from_project_id: string | null
+  to_project_id: string | null
+  from_project_name: string | null
+  to_project_name: string | null
+  source_location: string | null
+  material_type: string | null
+  quantity: number | null
+  unit: string | null
+  certificate_number: string | null
+  billing_notes: string | null
+  notes: string | null
+  monday_group: string | null
+  from_project?: { id: string; name: string }
+  to_project?: { id: string; name: string }
+  created_at: string
+  updated_at: string
+}
+
 // Dashboard types
 export interface DashboardStats {
   activeProjects: number
